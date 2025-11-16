@@ -1,0 +1,41 @@
+<script>
+    let { label = '', value = '', subtext = '' } = $props();
+</script>
+
+<div class="stat-card">
+    <div class="stat-label">{label}</div>
+    <div class="stat-value">{value}</div>
+    {#if subtext}
+        <div class="stat-subtext">{subtext}</div>
+    {/if}
+</div>
+
+<style>
+    .stat-card {
+        background: var(--color-surface);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .stat-label {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-muted);
+        margin-bottom: var(--spacing-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .stat-value {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        color: var(--color-text-primary);
+    }
+    
+    .stat-subtext {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-muted);
+        margin-top: var(--spacing-xs);
+    }
+</style>
