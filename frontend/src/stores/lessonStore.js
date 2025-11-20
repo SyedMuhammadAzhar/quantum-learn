@@ -38,6 +38,11 @@ export const lessons = {
                 id: 'faq',
                 title: 'FAQ',
                 type: 'faq'
+            },
+            {
+                id: 'quiz',
+                title: 'Quiz',
+                type: 'quiz'
             }
         ]
     },

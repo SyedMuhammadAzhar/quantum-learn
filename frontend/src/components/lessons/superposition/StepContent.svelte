@@ -5,6 +5,7 @@
   import Card from "../../ui/Card.svelte";
   import QuantumCoinFlip from "../../quantum/QuantumCoinFlip.svelte";
   import FAQ from "./FAQ.svelte";
+  import Quiz from "./Quiz.svelte";
   // @ts-ignore
   import MultiCoinFlip from "../../quantum/MultiCoinFlip.svelte";
 </script>
@@ -224,6 +225,8 @@
     </div>
   {:else if $currentStep?.id === "faq"}
     <FAQ />
+  {:else if $currentStep?.id === "quiz"}
+    <Quiz />
   {/if}
 </div>
 
