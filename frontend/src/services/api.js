@@ -51,9 +51,9 @@ async function fetchApi(endpoint, options = {}) {
             throw error;
         }
         
-        // Network error or other fetch error
+        // Network error
         throw new ApiError(
-            'Network error: Unable to connect to the server. Make sure the backend is running.',
+            'Network error: Unable to connect to the server. Make sure the backend is running on port 8000.',
             0,
             { originalError: error.message }
         );
@@ -61,7 +61,7 @@ async function fetchApi(endpoint, options = {}) {
 }
 
 /**
- * Quantum Coin Flip API
+ * Single Quantum Coin Flip API (1 Qubit)
  */
 export const quantumCoinApi = {
     /**
@@ -73,7 +73,7 @@ export const quantumCoinApi = {
     /**
      * Perform multiple quantum coin flips
      * @param {number} shots - Number of flips (1-10000)
-     * @returns {Promise<{total_shots: number, zeros: number, ones: number, zero_percentage: number, one_percentage: number}>}
+     * @returns {Promise<{total_shots, zeros, ones, zero_percentage, one_percentage}>}
      */
     flipBatch: (shots = 100) => fetchApi('/api/quantum-coin-flip-batch', {
         method: 'POST',
@@ -88,6 +88,33 @@ export const quantumCoinApi = {
 };
 
 /**
+ * Double Quantum Coin Flip API (2 Qubits)
+ */
+export const doubleCoinApi = {
+    /**
+     * Perform a double quantum coin flip
+     * @returns {Promise<{result, coin1, coin2, coin1_label, coin2_label}>}
+     */
+    flipOnce: () => fetchApi('/api/double-coin-flip', { method: 'POST' }),
+    
+    /**
+     * Perform multiple double quantum coin flips
+     * @param {number} shots - Number of flips (1-10000)
+     * @returns {Promise<{total_shots, counts, percentages, labels}>}
+     */
+    flipBatch: (shots = 100) => fetchApi('/api/double-coin-flip-batch', {
+        method: 'POST',
+        body: JSON.stringify({ shots }),
+    }),
+    
+    /**
+     * Get the double quantum circuit diagram
+     * @returns {Promise<{circuit_diagram: string}>}
+     */
+    getCircuit: () => fetchApi('/api/double-quantum-circuit'),
+};
+
+/**
  * Health check API
  */
 export const healthApi = {
@@ -97,7 +124,3 @@ export const healthApi = {
      */
     check: () => fetchApi('/'),
 };
-
-// Future APIs will be added here:
-// export const superpositionApi = { ... }
-// export const entanglementApi = { ... }
