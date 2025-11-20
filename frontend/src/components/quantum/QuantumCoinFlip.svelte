@@ -1,4 +1,5 @@
 <script>
+  import './quantumCoinFlip.css';
   // @ts-nocheck
 
   import { onMount } from "svelte";
@@ -200,64 +201,3 @@
     </div>
   </Card>
 </div>
-
-<style>
-  .quantum-coin-flip {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-  }
-
-  .section-title {
-    margin-top: 0;
-    color: var(--color-text-primary);
-  }
-
-  .coin-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .state-label {
-    font-size: var(--font-size-2xl);
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-top: var(--spacing-md);
-  }
-
-  .controls {
-    display: flex;
-    gap: var(--spacing-md);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .probability-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  .theoretical-note {
-    text-align: center;
-    color: var(--color-text-muted);
-    margin-top: var(--spacing-sm);
-  }
-
-  .clear-section {
-    margin-top: var(--spacing-lg);
-    text-align: center;
-  }
-</style>
