@@ -33,6 +33,11 @@ export const lessons = {
                 id: 'demo',
                 title: 'Try It Yourself!',
                 type: 'demo'
+            },
+            {
+                id: 'faq',
+                title: 'FAQ',
+                type: 'faq'
             }
         ]
     },

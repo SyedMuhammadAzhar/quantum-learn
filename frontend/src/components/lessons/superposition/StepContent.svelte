@@ -2,6 +2,7 @@
   import { currentStep } from "../../../stores/lessonStore.js";
   import Card from "../../ui/Card.svelte";
   import QuantumCoinFlip from "../../quantum/QuantumCoinFlip.svelte";
+  import FAQ from "./FAQ.svelte";
 </script>
 
 <div class="step-content">
@@ -191,6 +192,8 @@
 
       <QuantumCoinFlip />
     </div>
+  {:else if $currentStep?.id === "faq"}
+    <FAQ />
   {/if}
 </div>
 
