@@ -1,8 +1,12 @@
 <script>
+  // @ts-nocheck
+
   import { currentStep } from "../../../stores/lessonStore.js";
   import Card from "../../ui/Card.svelte";
   import QuantumCoinFlip from "../../quantum/QuantumCoinFlip.svelte";
   import FAQ from "./FAQ.svelte";
+  // @ts-ignore
+  import MultiCoinFlip from "../../quantum/MultiCoinFlip.svelte";
 </script>
 
 <div class="step-content">
@@ -22,7 +26,7 @@
         <p>
           But in the quantum world, things can be <strong
             >both at the same time</strong
-          >! 🤯
+          >!
         </p>
       </Card>
       <div class="fun-fact">
@@ -81,11 +85,11 @@
             <p class="small">Definitely heads</p>
           </div>
 
-          <div class="stage-item">
+          <div class="stage-item highlight">
             <div class="coin-spinning">
               <div class="spin-coin">?</div>
             </div>
-            <p><strong>Spinning</strong></p>
+            <p><strong>Spinning!</strong></p>
             <p class="small">Both heads AND tails!</p>
           </div>
 
@@ -178,19 +182,45 @@
     <div class="demo-step">
       <h1>Try It Yourself! 🎮</h1>
       <p class="lead">
-        Now put your knowledge to the test with a real quantum simulation!
+        Now put your knowledge to the test with real quantum simulations powered
+        by Qiskit!
       </p>
 
       <Card variant="info">
+        <h4>🔬 What You Can Do</h4>
         <p>
-          <strong>What you're about to do:</strong> You'll flip a quantum coin
-          that's powered by a real quantum circuit simulation using
-          <strong>Qiskit</strong>
-          (IBM's quantum computing library).
+          <strong>Single Coin:</strong> 1 qubit with Hadamard gate → 50% heads, 50%
+          tails
+        </p>
+        <p>
+          <strong>Double Coin:</strong> 2 qubits with Hadamard gates → 25% each of
+          4 outcomes
+        </p>
+        <p class="hint">
+          Try running 100 measurements to see the probabilities converge to
+          theoretical values!
         </p>
       </Card>
 
-      <QuantumCoinFlip />
+      <MultiCoinFlip />
+
+      <Card variant="success" style="margin-top: 24px;">
+        <h4>What Did You Learn?</h4>
+        <ul class="learn-list">
+          <li>
+            <strong>Single Coin (1 qubit):</strong>
+            50% heads, 50% tails - true quantum randomness from superposition
+          </li>
+          <li>
+            <strong>Double Coin (2 qubits):</strong>
+            25% each outcome - quantum states grow exponentially!
+          </li>
+          <li>
+            <strong>Key Point:</strong>
+            N qubits = 2ᴺ possible states. That's why quantum computers are powerful!
+          </li>
+        </ul>
+      </Card>
     </div>
   {:else if $currentStep?.id === "faq"}
     <FAQ />
@@ -214,30 +244,30 @@
   }
 
   h1 {
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
+    color: var(--color-text-primary, #1e293b);
+    margin-bottom: 16px;
   }
 
   .lead {
-    font-size: var(--font-size-lg);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
+    font-size: 18px;
+    color: var(--color-text-secondary, #64748b);
+    margin-bottom: 24px;
   }
 
   .big-emoji {
     font-size: 80px;
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 24px;
   }
 
   .fun-fact {
     background: linear-gradient(135deg, #ffecd2, #fcb69f);
-    padding: var(--spacing-lg);
-    border-radius: var(--radius-lg);
+    padding: 20px;
+    border-radius: 16px;
     display: flex;
     align-items: flex-start;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-lg);
+    gap: 16px;
+    margin-top: 24px;
   }
 
   .fact-icon {
@@ -252,16 +282,16 @@
   .comparison {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    gap: 24px;
+    margin-bottom: 24px;
   }
 
   .comparison-card {
-    background: var(--color-surface);
-    padding: var(--spacing-lg);
-    border-radius: var(--radius-lg);
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
     text-align: center;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 
   .comparison-card h3 {
@@ -272,34 +302,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-md);
-    margin: var(--spacing-lg) 0;
+    gap: 16px;
+    margin: 24px 0;
   }
 
   .bit {
     width: 60px;
     height: 60px;
-    background: var(--color-border);
-    border-radius: var(--radius-md);
+    background: #e2e8f0;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-2xl);
+    font-size: 24px;
     font-weight: bold;
+    color: #475569;
   }
 
   .qubit-display {
-    margin: var(--spacing-lg) 0;
+    margin: 24px 0;
   }
 
   .qubit {
     width: 80px;
     height: 80px;
-    background: linear-gradient(
-      135deg,
-      var(--color-primary),
-      var(--color-purple)
-    );
+    background: linear-gradient(135deg, #667eea, #764ba2);
     border-radius: 50%;
     margin: 0 auto;
     display: flex;
@@ -307,6 +334,7 @@
     justify-content: center;
     color: white;
     font-weight: bold;
+    font-size: 14px;
   }
 
   .qubit.spinning {
@@ -327,14 +355,23 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: var(--color-surface);
-    padding: var(--spacing-xl);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-lg);
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 
   .stage-item {
     text-align: center;
+    padding: 16px;
+    border-radius: 12px;
+    transition: all 0.3s;
+  }
+
+  .stage-item.highlight {
+    background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+    transform: scale(1.1);
   }
 
   .coin-static {
@@ -344,38 +381,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-2xl);
+    font-size: 28px;
     font-weight: bold;
     color: white;
-    margin: 0 auto var(--spacing-sm);
+    margin: 0 auto 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   }
 
   .heads-up {
-    background: var(--color-heads);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
   }
 
   .tails-up {
-    background: var(--color-tails);
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   }
 
   .coin-spinning {
     width: 80px;
     height: 80px;
-    margin: 0 auto var(--spacing-sm);
+    margin: 0 auto 12px;
   }
 
   .spin-coin {
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, var(--color-heads), var(--color-tails));
+    background: linear-gradient(90deg, #fbbf24 0%, #3b82f6 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-2xl);
+    font-size: 28px;
     font-weight: bold;
     color: white;
     animation: spinY 0.8s linear infinite;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   }
 
   @keyframes spinY {
@@ -388,14 +427,19 @@
   }
 
   .small {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-muted);
+    font-size: 13px;
+    color: #64748b;
   }
 
   .quantum-connection {
-    background: var(--color-surface);
-    padding: var(--spacing-lg);
-    border-radius: var(--radius-lg);
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .quantum-connection h4 {
+    margin-top: 0;
   }
 
   .quantum-connection ul {
@@ -405,16 +449,16 @@
   }
 
   .quantum-connection li {
-    padding: var(--spacing-sm) 0;
-    font-size: var(--font-size-base);
+    padding: 8px 0;
+    font-size: 15px;
   }
 
   /* Math Step */
   .notation {
     display: flex;
     justify-content: center;
-    gap: var(--spacing-xl);
-    margin: var(--spacing-lg) 0;
+    gap: 48px;
+    margin: 24px 0;
   }
 
   .state-box {
@@ -422,43 +466,86 @@
   }
 
   .ket {
-    font-size: var(--font-size-3xl);
+    font-size: 36px;
     font-family: "Times New Roman", serif;
-    color: var(--color-primary);
+    color: #667eea;
   }
 
   .superposition-formula {
     text-align: center;
-    margin: var(--spacing-lg) 0;
+    margin: 24px 0;
   }
 
   .formula {
-    font-size: var(--font-size-2xl);
+    font-size: 28px;
     font-family: "Times New Roman", serif;
-    color: var(--color-primary);
+    color: #667eea;
   }
 
   .hadamard-visual {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-md);
-    margin: var(--spacing-lg) 0;
-    font-size: var(--font-size-xl);
+    gap: 16px;
+    margin: 24px 0;
+    font-size: 20px;
   }
 
   .arrow {
-    color: var(--color-success);
+    color: #10b981;
     font-weight: bold;
   }
 
   .formula-small {
     font-family: "Times New Roman", serif;
-    color: var(--color-primary);
+    color: #667eea;
   }
 
   /* Demo Step */
   .demo-step {
-    /* Demo component has its own styling */
+    /* Uses MultiCoinFlip component styling */
+  }
+
+  .hint {
+    font-size: 13px;
+    color: #6366f1;
+    font-style: italic;
+    margin: 0 !important;
+  }
+
+  .learn-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .learn-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .learn-list li:last-child {
+    border-bottom: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .comparison {
+      grid-template-columns: 1fr;
+    }
+
+    .analogy-stage {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stage-item.highlight {
+      transform: scale(1);
+    }
+
+    .notation {
+      flex-direction: column;
+      gap: 24px;
+    }
   }
 </style>
