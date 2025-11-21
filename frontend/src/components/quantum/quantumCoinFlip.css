@@ -52,6 +52,10 @@
   margin-top: var(--spacing-sm);
 }
 
+[data-theme="dark"] .theoretical-note {
+  color: var(--color-text-secondary);
+}
+
 .clear-section {
   margin-top: var(--spacing-lg);
   text-align: center;

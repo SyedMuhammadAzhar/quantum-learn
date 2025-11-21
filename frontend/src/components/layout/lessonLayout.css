@@ -60,7 +60,7 @@
 .progress-label {
   font-size: var(--font-size-sm);
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
   margin-bottom: var(--spacing-sm);
 }
 
@@ -81,7 +81,7 @@
 
 .progress-text {
   font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
   text-align: right;
 }
 
@@ -102,6 +102,7 @@
   cursor: pointer;
   transition: background var(--transition-fast);
   text-align: left;
+  color: var(--color-text-primary);
 }
 
 .step-item:hover {
@@ -123,6 +124,7 @@
   height: 24px;
   border-radius: 50%;
   background: var(--color-border);
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;

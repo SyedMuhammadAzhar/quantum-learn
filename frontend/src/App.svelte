@@ -4,7 +4,10 @@
   import LessonLayout from "./components/layout/LessonLayout.svelte";
   import ChatAssistant from "./components/layout/ChatAssistant.svelte";
   import SuperpositionStepContent from "./components/lessons/superposition/StepContent.svelte";
+  import ThemeToggle from "./components/ui/ThemeToggle.svelte";
 </script>
+
+<ThemeToggle />
 
 <div class="app">
   {#if $currentLesson}

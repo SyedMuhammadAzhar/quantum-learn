@@ -60,6 +60,17 @@
     --transition-slow: 0.5s ease;
 }
 
+/* Dark Theme */
+[data-theme="dark"] {
+    --color-text-primary: #e2e8f0;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #94a3b8;
+    
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-border: #334155;
+}
+
 /* Reset & Base */
 * {
     box-sizing: border-box;

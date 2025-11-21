@@ -40,6 +40,11 @@ h1 {
   margin-top: 24px;
 }
 
+[data-theme="dark"] .fun-fact {
+  background: linear-gradient(135deg, rgba(255, 236, 210, 0.2), rgba(252, 182, 159, 0.2));
+  color: var(--color-text-primary);
+}
+
 .fact-icon {
   font-size: 32px;
 }
@@ -62,6 +67,11 @@ h1 {
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .comparison-card {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
 }
 
 .comparison-card h3 {
@@ -87,6 +97,11 @@ h1 {
   font-size: 24px;
   font-weight: bold;
   color: #475569;
+}
+
+[data-theme="dark"] .bit {
+  background: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .qubit-display {
@@ -132,6 +147,10 @@ h1 {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
+[data-theme="dark"] .analogy-stage {
+  background: var(--color-surface);
+}
+
 .stage-item {
   text-align: center;
   padding: 16px;
@@ -142,6 +161,10 @@ h1 {
 .stage-item.highlight {
   background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
   transform: scale(1.1);
+}
+
+[data-theme="dark"] .stage-item.highlight {
+  background: linear-gradient(135deg, rgba(240, 244, 255, 0.15), rgba(224, 231, 255, 0.15));
 }
 
 .coin-static {
@@ -201,11 +224,20 @@ h1 {
   color: #64748b;
 }
 
+[data-theme="dark"] .small {
+  color: var(--color-text-secondary);
+}
+
 .quantum-connection {
   background: white;
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .quantum-connection {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
 }
 
 .quantum-connection h4 {
@@ -292,6 +324,10 @@ h1 {
 .learn-list li {
   padding: 12px 0;
   border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="dark"] .learn-list li {
+  border-bottom: 1px solid var(--color-border);
 }
 
 .learn-list li:last-child {

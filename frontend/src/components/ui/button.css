@@ -75,8 +75,14 @@
 }
 
 .btn-secondary {
-  background: var(--color-border);
+  background: var(--color-surface);
   color: var(--color-text-primary);
+  border: 2px solid var(--color-border);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border);
 }
 
 /* Loading spinner */

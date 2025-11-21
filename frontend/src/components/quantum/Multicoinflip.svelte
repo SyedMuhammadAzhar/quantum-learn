@@ -630,6 +630,12 @@
     min-width: 200px;
   }
 
+  :global([data-theme="dark"]) .mode-tab {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+  }
+
   .mode-tab:hover {
     border-color: #667eea;
     transform: translateY(-3px);
@@ -668,6 +674,11 @@
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid #e2e8f0;
+  }
+
+  :global([data-theme="dark"]) .circuit-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);
+    border-color: var(--color-border);
   }
 
   .circuit-header {
@@ -737,11 +748,20 @@
     font-size: 14px;
   }
 
+  :global([data-theme="dark"]) .circuit-explain {
+    color: var(--color-text-secondary);
+  }
+
   .circuit-explain code {
     background: #e2e8f0;
     padding: 2px 6px;
     border-radius: 4px;
     font-family: "Courier New", monospace;
+  }
+
+  :global([data-theme="dark"]) .circuit-explain code {
+    background: var(--color-border);
+    color: var(--color-text-primary);
   }
 
   /* Error Box */
@@ -772,6 +792,10 @@
     display: flex;
     justify-content: center;
     min-height: 220px;
+  }
+
+  :global([data-theme="dark"]) .coin-display-area {
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.3) 0%, rgba(15, 23, 42, 0.3) 100%);
   }
 
   .single-coin-container,
@@ -810,6 +834,10 @@
     font-size: 13px;
     color: #64748b;
     font-weight: 600;
+  }
+
+  :global([data-theme="dark"]) .coin-name {
+    color: var(--color-text-secondary);
   }
 
   /* 3D Coin */
@@ -926,6 +954,10 @@
     color: #64748b;
   }
 
+  :global([data-theme="dark"]) .state-description {
+    color: var(--color-text-secondary);
+  }
+
   /* Control Buttons */
   .control-buttons {
     display: flex;
@@ -942,6 +974,10 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   }
 
+  :global([data-theme="dark"]) .stats-section {
+    background: var(--color-surface);
+  }
+
   .stats-header {
     display: flex;
     justify-content: space-between;
@@ -952,6 +988,10 @@
   .stats-header h3 {
     margin: 0;
     color: #1e293b;
+  }
+
+  :global([data-theme="dark"]) .stats-header h3 {
+    color: var(--color-text-primary);
   }
 
   .clear-btn {
@@ -965,9 +1005,20 @@
     transition: all 0.2s;
   }
 
+  :global([data-theme="dark"]) .clear-btn {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
   .clear-btn:hover {
     background: #e2e8f0;
     color: #475569;
+  }
+
+  :global([data-theme="dark"]) .clear-btn:hover {
+    background: var(--color-border);
+    color: var(--color-text-primary);
   }
 
   /* Stat Cards */
@@ -1023,16 +1074,28 @@
     color: #1e293b;
   }
 
+  :global([data-theme="dark"]) .stat-value {
+    color: var(--color-text-primary);
+  }
+
   .stat-label {
     font-size: 12px;
     color: #64748b;
     font-weight: 500;
   }
 
+  :global([data-theme="dark"]) .stat-label {
+    color: var(--color-text-secondary);
+  }
+
   .stat-percent {
     font-size: 14px;
     font-weight: 600;
     color: #475569;
+  }
+
+  :global([data-theme="dark"]) .stat-percent {
+    color: var(--color-text-secondary);
   }
 
   /* Progress Bars */
@@ -1057,12 +1120,20 @@
     font-family: "Courier New", monospace;
   }
 
+  :global([data-theme="dark"]) .progress-label {
+    color: var(--color-text-secondary);
+  }
+
   .progress-track {
     flex: 1;
     height: 24px;
     background: #f1f5f9;
     border-radius: 12px;
     overflow: hidden;
+  }
+
+  :global([data-theme="dark"]) .progress-track {
+    background: var(--color-border);
   }
 
   .progress-fill {
@@ -1097,11 +1168,19 @@
     text-align: right;
   }
 
+  :global([data-theme="dark"]) .progress-value {
+    color: var(--color-text-secondary);
+  }
+
   .theory-text {
     text-align: center;
     color: #64748b;
     font-size: 13px;
     margin: 0;
+  }
+
+  :global([data-theme="dark"]) .theory-text {
+    color: var(--color-text-primary);
   }
 
   /* History Section */
@@ -1111,10 +1190,18 @@
     border-top: 1px solid #e2e8f0;
   }
 
+  :global([data-theme="dark"]) .history-section {
+    border-top-color: var(--color-border);
+  }
+
   .history-section h4 {
     margin: 0 0 12px 0;
     font-size: 14px;
     color: #475569;
+  }
+
+  :global([data-theme="dark"]) .history-section h4 {
+    color: var(--color-text-primary);
   }
 
   .history-dots {
