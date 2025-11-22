@@ -1,0 +1,1066 @@
+From 06debda29c7a0109e4245a58acc30d3775a3906b Mon Sep 17 00:00:00 2001
+From: Zahid Ali <zaa2@hi.is>
+Date: Fri, 21 Nov 2025 00:42:22 +0000
+Subject: [PATCH] Fix dark mode text visibility issues in statistics, theory
+ text, and quiz completion sections
+
+---
+ dark-mode-fixes.patch                         | Bin 0 -> 39752 bytes
+ frontend/src/App.svelte                       |   3 +
+ .../src/components/layout/landingPage.css     |  14 ++-
+ .../src/components/layout/lessonLayout.css    |   6 +-
+ .../components/lessons/superposition/faq.css  |  29 ++++++
+ .../components/lessons/superposition/quiz.css |  85 +++++++++++++++++
+ .../lessons/superposition/stepContent.css     |  36 ++++++++
+ .../components/quantum/Multicoinflip.svelte   |  87 ++++++++++++++++++
+ .../components/quantum/quantumCoinFlip.css    |   4 +
+ frontend/src/components/ui/ThemeToggle.svelte |  37 ++++++++
+ frontend/src/components/ui/button.css         |   8 +-
+ frontend/src/components/ui/card.css           |  12 +++
+ frontend/src/components/ui/statCard.css       |   4 +-
+ frontend/src/stores/themeStore.js             |  15 +++
+ frontend/src/styles/global.css                |  11 +++
+ 15 files changed, 343 insertions(+), 8 deletions(-)
+ create mode 100644 dark-mode-fixes.patch
+ create mode 100644 frontend/src/components/ui/ThemeToggle.svelte
+ create mode 100644 frontend/src/stores/themeStore.js
+
+diff --git a/dark-mode-fixes.patch b/dark-mode-fixes.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..49a09f7d6aec0e1b986a16b4d0e8d7c0b0d1aa44
+GIT binary patch
+literal 39752
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/frontend/src/App.svelte b/frontend/src/App.svelte
+index 381f7b0..6edfb53 100644
+--- a/frontend/src/App.svelte
++++ b/frontend/src/App.svelte
+@@ -4,8 +4,11 @@
+   import LessonLayout from "./components/layout/LessonLayout.svelte";
+   import ChatAssistant from "./components/layout/ChatAssistant.svelte";
+   import SuperpositionStepContent from "./components/lessons/superposition/StepContent.svelte";
++  import ThemeToggle from "./components/ui/ThemeToggle.svelte";
+ </script>
+ 
++<ThemeToggle />
++
+ <div class="app">
+   {#if $currentLesson}
+     <!-- In a lesson -->
+diff --git a/frontend/src/components/layout/landingPage.css b/frontend/src/components/layout/landingPage.css
+index 5755011..bba0edf 100644
+--- a/frontend/src/components/layout/landingPage.css
++++ b/frontend/src/components/layout/landingPage.css
+@@ -68,6 +68,10 @@
+   background: #f5f5f5;
+ }
+ 
++[data-theme="dark"] .lesson-card.locked {
++  background: #2d3748;
++}
++
+ .card-icon {
+   font-size: 64px;
+   margin-bottom: var(--spacing-md);
+@@ -80,14 +84,14 @@
+ }
+ 
+ .card-subtitle {
+-  color: var(--color-text-muted);
++  color: var(--color-text-secondary);
+   margin: 0 0 var(--spacing-lg) 0;
+   font-size: var(--font-size-base);
+ }
+ 
+ .locked-badge {
+   background: var(--color-border);
+-  color: var(--color-text-muted);
++  color: var(--color-text-secondary);
+   padding: var(--spacing-sm) var(--spacing-md);
+   border-radius: var(--radius-full);
+   font-size: var(--font-size-sm);
+@@ -118,7 +122,11 @@
+   padding: var(--spacing-xs) var(--spacing-sm);
+   border-radius: var(--radius-md);
+   font-size: var(--font-size-xs);
+-  color: var(--color-text-muted);
++  color: var(--color-text-secondary);
++}
++
++[data-theme="dark"] .step-count {
++  background: rgba(255, 255, 255, 0.1);
+ }
+ 
+ .features {
+diff --git a/frontend/src/components/layout/lessonLayout.css b/frontend/src/components/layout/lessonLayout.css
+index 64e8ca1..8f93abf 100644
+--- a/frontend/src/components/layout/lessonLayout.css
++++ b/frontend/src/components/layout/lessonLayout.css
+@@ -60,7 +60,7 @@
+ .progress-label {
+   font-size: var(--font-size-sm);
+   font-weight: 600;
+-  color: var(--color-text-muted);
++  color: var(--color-text-secondary);
+   margin-bottom: var(--spacing-sm);
+ }
+ 
+@@ -81,7 +81,7 @@
+ 
+ .progress-text {
+   font-size: var(--font-size-xs);
+-  color: var(--color-text-muted);
++  color: var(--color-text-secondary);
+   text-align: right;
+ }
+ 
+@@ -102,6 +102,7 @@
+   cursor: pointer;
+   transition: background var(--transition-fast);
+   text-align: left;
++  color: var(--color-text-primary);
+ }
+ 
+ .step-item:hover {
+@@ -123,6 +124,7 @@
+   height: 24px;
+   border-radius: 50%;
+   background: var(--color-border);
++  color: var(--color-text-primary);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+diff --git a/frontend/src/components/lessons/superposition/faq.css b/frontend/src/components/lessons/superposition/faq.css
+index 968be73..1d861d3 100644
+--- a/frontend/src/components/lessons/superposition/faq.css
++++ b/frontend/src/components/lessons/superposition/faq.css
+@@ -15,11 +15,19 @@
+     color: #2d3748;
+ }
+ 
++[data-theme="dark"] .faq-header h2 {
++    color: var(--color-text-primary);
++}
++
+ .faq-header p {
+     color: #718096;
+     font-size: 1rem;
+ }
+ 
++[data-theme="dark"] .faq-header p {
++    color: var(--color-text-secondary);
++}
++
+ .faq-list {
+     display: flex;
+     flex-direction: column;
+@@ -34,6 +42,11 @@
+     transition: all 0.3s ease;
+ }
+ 
++[data-theme="dark"] .faq-item {
++    background: var(--color-surface);
++    border-color: var(--color-border);
++}
++
+ .faq-item:hover {
+     border-color: #667eea;
+     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+@@ -61,6 +74,10 @@
+     background: #f7fafc;
+ }
+ 
++[data-theme="dark"] .faq-question:hover {
++    background: rgba(255, 255, 255, 0.05);
++}
++
+ .question-text {
+     font-size: 1.1rem;
+     font-weight: 600;
+@@ -69,6 +86,10 @@
+     padding-right: 1rem;
+ }
+ 
++[data-theme="dark"] .question-text {
++    color: var(--color-text-primary);
++}
++
+ .toggle-icon {
+     width: 32px;
+     height: 32px;
+@@ -93,6 +114,10 @@
+     background: #f7fafc;
+ }
+ 
++[data-theme="dark"] .faq-answer {
++    background: rgba(255, 255, 255, 0.03);
++}
++
+ .faq-answer p {
+     margin: 0;
+     color: #4a5568;
+@@ -100,6 +125,10 @@
+     line-height: 1.6;
+ }
+ 
++[data-theme="dark"] .faq-answer p {
++    color: var(--color-text-secondary);
++}
++
+ .faq-footer {
+     margin-top: 2rem;
+     padding: 1.5rem;
+diff --git a/frontend/src/components/lessons/superposition/quiz.css b/frontend/src/components/lessons/superposition/quiz.css
+index dfdbfc1..7f1a7dc 100644
+--- a/frontend/src/components/lessons/superposition/quiz.css
++++ b/frontend/src/components/lessons/superposition/quiz.css
+@@ -15,12 +15,20 @@
+     color: #2d3748;
+ }
+ 
++[data-theme="dark"] .quiz-header h2 {
++    color: var(--color-text-primary);
++}
++
+ .quiz-header p {
+     color: #718096;
+     font-size: 1rem;
+     margin-bottom: 1.5rem;
+ }
+ 
++[data-theme="dark"] .quiz-header p {
++    color: var(--color-text-secondary);
++}
++
+ .progress-bar {
+     width: 100%;
+     height: 8px;
+@@ -30,6 +38,10 @@
+     margin-bottom: 0.5rem;
+ }
+ 
++[data-theme="dark"] .progress-bar {
++    background: var(--color-border);
++}
++
+ .progress-fill {
+     height: 100%;
+     background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+@@ -42,6 +54,10 @@
+     font-weight: 600;
+ }
+ 
++[data-theme="dark"] .progress-text {
++    color: var(--color-text-secondary);
++}
++
+ .question-card {
+     background: white;
+     border-radius: 16px;
+@@ -49,6 +65,10 @@
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+ }
+ 
++[data-theme="dark"] .question-card {
++    background: var(--color-surface);
++}
++
+ .question-text {
+     font-size: 1.375rem;
+     font-weight: 600;
+@@ -57,6 +77,10 @@
+     line-height: 1.5;
+ }
+ 
++[data-theme="dark"] .question-text {
++    color: var(--color-text-primary);
++}
++
+ .options {
+     display: flex;
+     flex-direction: column;
+@@ -78,6 +102,11 @@
+     position: relative;
+ }
+ 
++[data-theme="dark"] .option {
++    background: rgba(255, 255, 255, 0.03);
++    border-color: var(--color-border);
++}
++
+ .option:hover:not(.disabled) {
+     border-color: #667eea;
+     background: #f0f4ff;
+@@ -85,21 +114,37 @@
+     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+ }
+ 
++[data-theme="dark"] .option:hover:not(.disabled) {
++    background: rgba(102, 126, 234, 0.1);
++}
++
+ .option.selected:not(.correct):not(.incorrect) {
+     border-color: #667eea;
+     background: #e9ecff;
+ }
+ 
++[data-theme="dark"] .option.selected:not(.correct):not(.incorrect) {
++    background: rgba(102, 126, 234, 0.15);
++}
++
+ .option.correct {
+     border-color: #48bb78;
+     background: #f0fff4;
+ }
+ 
++[data-theme="dark"] .option.correct {
++    background: rgba(72, 187, 120, 0.15);
++}
++
+ .option.incorrect {
+     border-color: #f56565;
+     background: #fff5f5;
+ }
+ 
++[data-theme="dark"] .option.incorrect {
++    background: rgba(245, 101, 101, 0.15);
++}
++
+ .option.disabled {
+     cursor: not-allowed;
+ }
+@@ -132,6 +177,10 @@
+     font-weight: 500;
+ }
+ 
++[data-theme="dark"] .option-text {
++    color: var(--color-text-primary);
++}
++
+ .checkmark, .crossmark {
+     font-size: 1.5rem;
+     font-weight: bold;
+@@ -163,11 +212,19 @@
+     border-color: #48bb78;
+ }
+ 
++[data-theme="dark"] .feedback-content.correct {
++    background: rgba(72, 187, 120, 0.1);
++}
++
+ .feedback-content.incorrect {
+     background: #fffaf0;
+     border-color: #ed8936;
+ }
+ 
++[data-theme="dark"] .feedback-content.incorrect {
++    background: rgba(237, 137, 54, 0.1);
++}
++
+ .feedback-icon {
+     font-size: 2rem;
+     flex-shrink: 0;
+@@ -179,12 +236,20 @@
+     color: #2d3748;
+ }
+ 
++[data-theme="dark"] .feedback-text h4 {
++    color: var(--color-text-primary);
++}
++
+ .feedback-text p {
+     margin: 0;
+     color: #4a5568;
+     line-height: 1.6;
+ }
+ 
++[data-theme="dark"] .feedback-text p {
++    color: var(--color-text-secondary);
++}
++
+ .button-group {
+     display: flex;
+     justify-content: center;
+@@ -238,6 +303,10 @@
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+ }
+ 
++[data-theme="dark"] .results {
++    background: var(--color-surface);
++}
++
+ .results-header {
+     margin-bottom: 2rem;
+ }
+@@ -253,6 +322,10 @@
+     margin-bottom: 1rem;
+ }
+ 
++[data-theme="dark"] .results h2 {
++    color: var(--color-text-primary);
++}
++
+ .score {
+     font-size: 1.5rem;
+     font-weight: 700;
+@@ -266,18 +339,30 @@
+     margin-bottom: 2rem;
+ }
+ 
++[data-theme="dark"] .results-message {
++    background: rgba(255, 255, 255, 0.05);
++}
++
+ .results-message h3 {
+     font-size: 1.5rem;
+     color: #2d3748;
+     margin-bottom: 0.5rem;
+ }
+ 
++[data-theme="dark"] .results-message h3 {
++    color: var(--color-text-primary);
++}
++
+ .results-message p {
+     color: #4a5568;
+     font-size: 1.125rem;
+     line-height: 1.6;
+ }
+ 
++[data-theme="dark"] .results-message p {
++    color: var(--color-text-secondary);
++}
++
+ @media (max-width: 640px) {
+     .quiz-container {
+         padding: 1rem;
+diff --git a/frontend/src/components/lessons/superposition/stepContent.css b/frontend/src/components/lessons/superposition/stepContent.css
+index d8fff46..977c9ba 100644
+--- a/frontend/src/components/lessons/superposition/stepContent.css
++++ b/frontend/src/components/lessons/superposition/stepContent.css
+@@ -40,6 +40,11 @@ h1 {
+   margin-top: 24px;
+ }
+ 
++[data-theme="dark"] .fun-fact {
++  background: linear-gradient(135deg, rgba(255, 236, 210, 0.2), rgba(252, 182, 159, 0.2));
++  color: var(--color-text-primary);
++}
++
+ .fact-icon {
+   font-size: 32px;
+ }
+@@ -64,6 +69,11 @@ h1 {
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+ }
+ 
++[data-theme="dark"] .comparison-card {
++  background: var(--color-surface);
++  color: var(--color-text-primary);
++}
++
+ .comparison-card h3 {
+   margin-top: 0;
+ }
+@@ -89,6 +99,11 @@ h1 {
+   color: #475569;
+ }
+ 
++[data-theme="dark"] .bit {
++  background: var(--color-border);
++  color: var(--color-text-primary);
++}
++
+ .qubit-display {
+   margin: 24px 0;
+ }
+@@ -132,6 +147,10 @@ h1 {
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+ }
+ 
++[data-theme="dark"] .analogy-stage {
++  background: var(--color-surface);
++}
++
+ .stage-item {
+   text-align: center;
+   padding: 16px;
+@@ -144,6 +163,10 @@ h1 {
+   transform: scale(1.1);
+ }
+ 
++[data-theme="dark"] .stage-item.highlight {
++  background: linear-gradient(135deg, rgba(240, 244, 255, 0.15), rgba(224, 231, 255, 0.15));
++}
++
+ .coin-static {
+   width: 80px;
+   height: 80px;
+@@ -201,6 +224,10 @@ h1 {
+   color: #64748b;
+ }
+ 
++[data-theme="dark"] .small {
++  color: var(--color-text-secondary);
++}
++
+ .quantum-connection {
+   background: white;
+   padding: 20px;
+@@ -208,6 +235,11 @@ h1 {
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+ }
+ 
++[data-theme="dark"] .quantum-connection {
++  background: var(--color-surface);
++  color: var(--color-text-primary);
++}
++
+ .quantum-connection h4 {
+   margin-top: 0;
+ }
+@@ -294,6 +326,10 @@ h1 {
+   border-bottom: 1px solid #e2e8f0;
+ }
+ 
++[data-theme="dark"] .learn-list li {
++  border-bottom: 1px solid var(--color-border);
++}
++
+ .learn-list li:last-child {
+   border-bottom: none;
+ }
+diff --git a/frontend/src/components/quantum/Multicoinflip.svelte b/frontend/src/components/quantum/Multicoinflip.svelte
+index 65e6051..d3f34bc 100644
+--- a/frontend/src/components/quantum/Multicoinflip.svelte
++++ b/frontend/src/components/quantum/Multicoinflip.svelte
+@@ -630,6 +630,12 @@
+     min-width: 200px;
+   }
+ 
++  :global([data-theme="dark"]) .mode-tab {
++    background: var(--color-surface);
++    border-color: var(--color-border);
++    color: var(--color-text-primary);
++  }
++
+   .mode-tab:hover {
+     border-color: #667eea;
+     transform: translateY(-3px);
+@@ -670,6 +676,11 @@
+     border: 1px solid #e2e8f0;
+   }
+ 
++  :global([data-theme="dark"]) .circuit-card {
++    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);
++    border-color: var(--color-border);
++  }
++
+   .circuit-header {
+     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+     padding: 12px 20px;
+@@ -737,6 +748,10 @@
+     font-size: 14px;
+   }
+ 
++  :global([data-theme="dark"]) .circuit-explain {
++    color: var(--color-text-secondary);
++  }
++
+   .circuit-explain code {
+     background: #e2e8f0;
+     padding: 2px 6px;
+@@ -744,6 +759,11 @@
+     font-family: "Courier New", monospace;
+   }
+ 
++  :global([data-theme="dark"]) .circuit-explain code {
++    background: var(--color-border);
++    color: var(--color-text-primary);
++  }
++
+   /* Error Box */
+   .error-box {
+     display: flex;
+@@ -774,6 +794,10 @@
+     min-height: 220px;
+   }
+ 
++  :global([data-theme="dark"]) .coin-display-area {
++    background: linear-gradient(180deg, rgba(30, 41, 59, 0.3) 0%, rgba(15, 23, 42, 0.3) 100%);
++  }
++
+   .single-coin-container,
+   .double-coin-container {
+     display: flex;
+@@ -812,6 +836,10 @@
+     font-weight: 600;
+   }
+ 
++  :global([data-theme="dark"]) .coin-name {
++    color: var(--color-text-secondary);
++  }
++
+   /* 3D Coin */
+   .coin-3d {
+     width: 100px;
+@@ -926,6 +954,10 @@
+     color: #64748b;
+   }
+ 
++  :global([data-theme="dark"]) .state-description {
++    color: var(--color-text-secondary);
++  }
++
+   /* Control Buttons */
+   .control-buttons {
+     display: flex;
+@@ -942,6 +974,10 @@
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+   }
+ 
++  :global([data-theme="dark"]) .stats-section {
++    background: var(--color-surface);
++  }
++
+   .stats-header {
+     display: flex;
+     justify-content: space-between;
+@@ -954,6 +990,10 @@
+     color: #1e293b;
+   }
+ 
++  :global([data-theme="dark"]) .stats-header h3 {
++    color: var(--color-text-primary);
++  }
++
+   .clear-btn {
+     padding: 8px 16px;
+     background: #f1f5f9;
+@@ -965,11 +1005,22 @@
+     transition: all 0.2s;
+   }
+ 
++  :global([data-theme="dark"]) .clear-btn {
++    background: var(--color-bg-secondary);
++    border-color: var(--color-border);
++    color: var(--color-text-secondary);
++  }
++
+   .clear-btn:hover {
+     background: #e2e8f0;
+     color: #475569;
+   }
+ 
++  :global([data-theme="dark"]) .clear-btn:hover {
++    background: var(--color-border);
++    color: var(--color-text-primary);
++  }
++
+   /* Stat Cards */
+   .stat-cards-row {
+     display: grid;
+@@ -1023,18 +1074,30 @@
+     color: #1e293b;
+   }
+ 
++  :global([data-theme="dark"]) .stat-value {
++    color: var(--color-text-primary);
++  }
++
+   .stat-label {
+     font-size: 12px;
+     color: #64748b;
+     font-weight: 500;
+   }
+ 
++  :global([data-theme="dark"]) .stat-label {
++    color: var(--color-text-secondary);
++  }
++
+   .stat-percent {
+     font-size: 14px;
+     font-weight: 600;
+     color: #475569;
+   }
+ 
++  :global([data-theme="dark"]) .stat-percent {
++    color: var(--color-text-secondary);
++  }
++
+   /* Progress Bars */
+   .progress-bars {
+     display: flex;
+@@ -1057,6 +1120,10 @@
+     font-family: "Courier New", monospace;
+   }
+ 
++  :global([data-theme="dark"]) .progress-label {
++    color: var(--color-text-secondary);
++  }
++
+   .progress-track {
+     flex: 1;
+     height: 24px;
+@@ -1065,6 +1132,10 @@
+     overflow: hidden;
+   }
+ 
++  :global([data-theme="dark"]) .progress-track {
++    background: var(--color-border);
++  }
++
+   .progress-fill {
+     height: 100%;
+     border-radius: 12px;
+@@ -1097,6 +1168,10 @@
+     text-align: right;
+   }
+ 
++  :global([data-theme="dark"]) .progress-value {
++    color: var(--color-text-secondary);
++  }
++
+   .theory-text {
+     text-align: center;
+     color: #64748b;
+@@ -1104,6 +1179,10 @@
+     margin: 0;
+   }
+ 
++  :global([data-theme="dark"]) .theory-text {
++    color: var(--color-text-primary);
++  }
++
+   /* History Section */
+   .history-section {
+     margin-top: 20px;
+@@ -1111,12 +1190,20 @@
+     border-top: 1px solid #e2e8f0;
+   }
+ 
++  :global([data-theme="dark"]) .history-section {
++    border-top-color: var(--color-border);
++  }
++
+   .history-section h4 {
+     margin: 0 0 12px 0;
+     font-size: 14px;
+     color: #475569;
+   }
+ 
++  :global([data-theme="dark"]) .history-section h4 {
++    color: var(--color-text-primary);
++  }
++
+   .history-dots {
+     display: flex;
+     flex-wrap: wrap;
+diff --git a/frontend/src/components/quantum/quantumCoinFlip.css b/frontend/src/components/quantum/quantumCoinFlip.css
+index a6f12f2..d528f80 100644
+--- a/frontend/src/components/quantum/quantumCoinFlip.css
++++ b/frontend/src/components/quantum/quantumCoinFlip.css
+@@ -52,6 +52,10 @@
+   margin-top: var(--spacing-sm);
+ }
+ 
++[data-theme="dark"] .theoretical-note {
++  color: var(--color-text-secondary);
++}
++
+ .clear-section {
+   margin-top: var(--spacing-lg);
+   text-align: center;
+diff --git a/frontend/src/components/ui/ThemeToggle.svelte b/frontend/src/components/ui/ThemeToggle.svelte
+new file mode 100644
+index 0000000..40d046f
+--- /dev/null
++++ b/frontend/src/components/ui/ThemeToggle.svelte
+@@ -0,0 +1,37 @@
++<script>
++  import { theme, toggleTheme } from '../../stores/themeStore.js';
++</script>
++
++<button class="theme-toggle" onclick={toggleTheme} aria-label="Toggle theme">
++  {#if $theme === 'light'}
++    🌙
++  {:else}
++    ☀️
++  {/if}
++</button>
++
++<style>
++  .theme-toggle {
++    position: fixed;
++    top: 1.5rem;
++    right: 1.5rem;
++    width: 3rem;
++    height: 3rem;
++    border-radius: 50%;
++    border: 2px solid rgba(255, 255, 255, 0.3);
++    background: rgba(255, 255, 255, 0.1);
++    backdrop-filter: blur(10px);
++    cursor: pointer;
++    font-size: 1.5rem;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    transition: all 0.3s ease;
++    z-index: 1000;
++  }
++
++  .theme-toggle:hover {
++    background: rgba(255, 255, 255, 0.2);
++    transform: scale(1.1);
++  }
++</style>
+diff --git a/frontend/src/components/ui/button.css b/frontend/src/components/ui/button.css
+index b00bb90..16d52cb 100644
+--- a/frontend/src/components/ui/button.css
++++ b/frontend/src/components/ui/button.css
+@@ -75,8 +75,14 @@
+ }
+ 
+ .btn-secondary {
+-  background: var(--color-border);
++  background: var(--color-surface);
+   color: var(--color-text-primary);
++  border: 2px solid var(--color-border);
++}
++
++[data-theme="dark"] .btn-secondary {
++  background: var(--color-surface);
++  border-color: var(--color-border);
+ }
+ 
+ /* Loading spinner */
+diff --git a/frontend/src/components/ui/card.css b/frontend/src/components/ui/card.css
+index e4b5331..7002521 100644
+--- a/frontend/src/components/ui/card.css
++++ b/frontend/src/components/ui/card.css
+@@ -10,16 +10,28 @@
+     border-left: 4px solid var(--color-secondary);
+ }
+ 
++[data-theme="dark"] .card-info {
++    background: rgba(74, 144, 226, 0.1);
++}
++
+ .card-success {
+     background: #f0fff4;
+     border-left: 4px solid var(--color-success);
+ }
+ 
++[data-theme="dark"] .card-success {
++    background: rgba(39, 174, 96, 0.1);
++}
++
+ .card-warning {
+     background: #fffbf0;
+     border-left: 4px solid var(--color-warning);
+ }
+ 
++[data-theme="dark"] .card-warning {
++    background: rgba(243, 156, 18, 0.1);
++}
++
+ .card-title {
+     margin: 0 0 var(--spacing-md) 0;
+     color: var(--color-text-primary);
+diff --git a/frontend/src/components/ui/statCard.css b/frontend/src/components/ui/statCard.css
+index 4263276..d270b27 100644
+--- a/frontend/src/components/ui/statCard.css
++++ b/frontend/src/components/ui/statCard.css
+@@ -8,7 +8,7 @@
+ 
+ .stat-label {
+     font-size: var(--font-size-sm);
+-    color: var(--color-text-muted);
++    color: var(--color-text-secondary);
+     margin-bottom: var(--spacing-xs);
+     text-transform: uppercase;
+     letter-spacing: 0.5px;
+@@ -22,6 +22,6 @@
+ 
+ .stat-subtext {
+     font-size: var(--font-size-xs);
+-    color: var(--color-text-muted);
++    color: var(--color-text-secondary);
+     margin-top: var(--spacing-xs);
+ }
+diff --git a/frontend/src/stores/themeStore.js b/frontend/src/stores/themeStore.js
+new file mode 100644
+index 0000000..6ad162c
+--- /dev/null
++++ b/frontend/src/stores/themeStore.js
+@@ -0,0 +1,15 @@
++import { writable } from 'svelte/store';
++
++const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
++export const theme = writable(stored || 'light');
++
++theme.subscribe(value => {
++  if (typeof window !== 'undefined') {
++    localStorage.setItem('theme', value);
++    document.documentElement.setAttribute('data-theme', value);
++  }
++});
++
++export function toggleTheme() {
++  theme.update(current => current === 'light' ? 'dark' : 'light');
++}
+diff --git a/frontend/src/styles/global.css b/frontend/src/styles/global.css
+index 44b6590..23bc825 100644
+--- a/frontend/src/styles/global.css
++++ b/frontend/src/styles/global.css
+@@ -60,6 +60,17 @@
+     --transition-slow: 0.5s ease;
+ }
+ 
++/* Dark Theme */
++[data-theme="dark"] {
++    --color-text-primary: #e2e8f0;
++    --color-text-secondary: #cbd5e1;
++    --color-text-muted: #94a3b8;
++    
++    --color-background: #0f172a;
++    --color-surface: #1e293b;
++    --color-border: #334155;
++}
++
+ /* Reset & Base */
+ * {
+     box-sizing: border-box;
+-- 
+2.47.0.windows.2
+
