@@ -5,8 +5,10 @@ from typing import Dict
 
 class QuantumService:
     """
-    Quantum computing service using Qiskit for coin flip simulations.
-    Implements Hadamard gates for creating superposition states.
+    Quantum computing service using Qiskit for quantum demonstrations.
+    Implements:
+    - Superposition: Hadamard gates for coin flip simulations
+    - Entanglement: Bell states for quantum correlation demonstrations
     """
     
     def __init__(self):
@@ -186,6 +188,151 @@ class QuantumService:
         qc.h(1)
         qc.measure(0, 0)
         qc.measure(1, 1)
+        return qc.draw(output='text').single_string()
+    
+    # ==================== BELL STATES (Entanglement) ====================
+    
+    def create_bell_state(self, state_type: str) -> QuantumCircuit:
+        """
+        Create different Bell states using quantum gates.
+        
+        Bell states are maximally entangled two-qubit states:
+        - Φ⁺ = (|00⟩ + |11⟩)/√2  → H on q0, CNOT(q0, q1)
+        - Ψ⁺ = (|01⟩ + |10⟩)/√2  → X on q1, H on q0, CNOT(q0, q1)
+        - Φ⁻ = (|00⟩ - |11⟩)/√2  → H on q0, CNOT(q0, q1), Z on q0
+        - Ψ⁻ = (|01⟩ - |10⟩)/√2  → X on q1, H on q0, CNOT(q0, q1), Z on q0
+        
+        Args:
+            state_type: One of "phi_plus", "psi_plus", "phi_minus", "psi_minus"
+            
+        Returns:
+            QuantumCircuit ready for measurement
+        """
+        qc = QuantumCircuit(2, 2)
+        
+        if state_type == "phi_plus":
+            # Φ⁺ = (|00⟩ + |11⟩)/√2
+            # Circuit: H on q0, then CNOT with q0 as control
+            qc.h(0)      # Create superposition on qubit 0
+            qc.cx(0, 1)  # Entangle qubit 0 with qubit 1
+        
+        elif state_type == "psi_plus":
+            # Ψ⁺ = (|01⟩ + |10⟩)/√2
+            # Circuit: Flip q1, then H on q0, then CNOT
+            qc.x(1)      # Flip qubit 1 to |1⟩
+            qc.h(0)      # Create superposition on qubit 0
+            qc.cx(0, 1)  # Entangle
+        
+        elif state_type == "phi_minus":
+            # Φ⁻ = (|00⟩ - |11⟩)/√2
+            # Circuit: H on q0, CNOT, then Z on q0 (adds phase)
+            qc.h(0)      # Create superposition
+            qc.cx(0, 1)  # Entangle
+            qc.z(0)      # Add phase to create minus state
+        
+        elif state_type == "psi_minus":
+            # Ψ⁻ = (|01⟩ - |10⟩)/√2
+            # Circuit: X on q1, H on q0, CNOT, Z on q0
+            qc.x(1)      # Flip qubit 1
+            qc.h(0)      # Create superposition
+            qc.cx(0, 1)  # Entangle
+            qc.z(0)      # Add phase
+        
+        else:
+            raise ValueError(f"Unknown Bell state: {state_type}. Must be one of: phi_plus, psi_plus, phi_minus, psi_minus")
+        
+        # Measure both qubits
+        qc.measure([0, 1], [0, 1])
+        
+        return qc
+    
+    def bell_state_measure(self, state_type: str) -> Dict:
+        """
+        Measure a Bell state once and return the result.
+        
+        Args:
+            state_type: One of "phi_plus", "psi_plus", "phi_minus", "psi_minus"
+            
+        Returns:
+            Dict with result and state information
+        """
+        qc = self.create_bell_state(state_type)
+        
+        # Run circuit once
+        result = self.simulator.run(qc, shots=1).result()
+        counts = result.get_counts()
+        
+        # Get the single measurement result
+        measurement = list(counts.keys())[0]
+        
+        return {
+            "result": measurement,
+            "state": state_type,
+            "description": self._get_bell_state_description(state_type)
+        }
+    
+    def bell_state_batch(self, state_type: str, shots: int = 100) -> Dict:
+        """
+        Measure a Bell state multiple times and return statistics.
+        
+        Args:
+            state_type: One of "phi_plus", "psi_plus", "phi_minus", "psi_minus"
+            shots: Number of measurements (1-10000)
+            
+        Returns:
+            Dict with counts, percentages, and expected values
+        """
+        qc = self.create_bell_state(state_type)
+        
+        # Run circuit multiple times
+        result = self.simulator.run(qc, shots=shots).result()
+        counts = result.get_counts()
+        
+        # Ensure all possible outcomes are in the result
+        all_outcomes = {"00": 0, "01": 0, "10": 0, "11": 0}
+        all_outcomes.update(counts)
+        
+        # Get expected probabilities for this Bell state
+        expected = self._get_expected_probabilities(state_type)
+        
+        return {
+            "counts": all_outcomes,
+            "total_shots": shots,
+            "state": state_type,
+            "percentages": {
+                outcome: round((count / shots) * 100, 2)
+                for outcome, count in all_outcomes.items()
+            },
+            "expected_percentages": {
+                outcome: prob * 100
+                for outcome, prob in expected.items()
+            },
+            "description": self._get_bell_state_description(state_type)
+        }
+    
+    def _get_expected_probabilities(self, state_type: str) -> Dict[str, float]:
+        """Get theoretical probabilities for each Bell state."""
+        probabilities = {
+            "phi_plus": {"00": 0.5, "01": 0.0, "10": 0.0, "11": 0.5},
+            "psi_plus": {"00": 0.0, "01": 0.5, "10": 0.5, "11": 0.0},
+            "phi_minus": {"00": 0.5, "01": 0.0, "10": 0.0, "11": 0.5},
+            "psi_minus": {"00": 0.0, "01": 0.5, "10": 0.5, "11": 0.0}
+        }
+        return probabilities.get(state_type, {"00": 0.25, "01": 0.25, "10": 0.25, "11": 0.25})
+    
+    def _get_bell_state_description(self, state_type: str) -> str:
+        """Get human-readable description of Bell state."""
+        descriptions = {
+            "phi_plus": "Φ⁺ = (|00⟩ + |11⟩)/√2 - Both qubits always match",
+            "psi_plus": "Ψ⁺ = (|01⟩ + |10⟩)/√2 - Both qubits always differ",
+            "phi_minus": "Φ⁻ = (|00⟩ - |11⟩)/√2 - Both qubits match (opposite phase)",
+            "psi_minus": "Ψ⁻ = (|01⟩ - |10⟩)/√2 - Both qubits differ (opposite phase)"
+        }
+        return descriptions.get(state_type, "Unknown Bell state")
+    
+    def get_bell_state_circuit_diagram(self, state_type: str) -> str:
+        """Get text representation of Bell state circuit."""
+        qc = self.create_bell_state(state_type)
         return qc.draw(output='text').single_string()
 
 

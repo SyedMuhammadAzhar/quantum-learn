@@ -115,6 +115,32 @@ export const doubleCoinApi = {
 };
 
 /**
+ * Bell State (Entanglement) API
+ */
+export const bellStateApi = {
+    /**
+     * Measure a Bell state once
+     * @param {string} state - Bell state type: phi_plus, psi_plus, phi_minus, psi_minus
+     * @returns {Promise<{qubit1, qubit2, state, description}>}
+     */
+    measure: (state = 'phi_plus') => fetchApi('/api/bell-state-measure', {
+        method: 'POST',
+        body: JSON.stringify({ state }),
+    }),
+    
+    /**
+     * Perform multiple Bell state measurements
+     * @param {string} state - Bell state type
+     * @param {number} shots - Number of measurements (1-10000)
+     * @returns {Promise<{total_measurements, counts, percentages, state, expected}>}
+     */
+    batchMeasure: (state = 'phi_plus', shots = 100) => fetchApi('/api/bell-state-batch', {
+        method: 'POST',
+        body: JSON.stringify({ state, shots }),
+    }),
+};
+
+/**
  * Health check API
  */
 export const healthApi = {

@@ -7,8 +7,10 @@
     lessonProgress,
   } from "../../stores/lessonStore.js";
   import Button from "../ui/Button.svelte";
-
-  let { children } = $props();
+  
+  // Import lesson components
+  import SuperpositionStepContent from "../lessons/superposition/StepContent.svelte";
+  import EntanglementStepContent from "../lessons/entanglement/StepContent.svelte";
 
   function handleExit() {
     lessonStore.exitLesson();
@@ -80,7 +82,17 @@
     <!-- Main Content -->
     <main class="lesson-main">
       <div class="lesson-content">
-        {@render children()}
+        <!-- Render appropriate lesson content based on current lesson ID -->
+        {#if $currentLesson.id === 'superposition'}
+          <SuperpositionStepContent />
+        {:else if $currentLesson.id === 'entanglement'}
+          <EntanglementStepContent />
+        {:else}
+          <div class="no-content">
+            <h2>Lesson content not available</h2>
+            <p>This lesson is under construction.</p>
+          </div>
+        {/if}
       </div>
 
       <!-- Navigation -->

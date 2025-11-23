@@ -4,6 +4,7 @@
   import LessonLayout from "./components/layout/LessonLayout.svelte";
   import ChatAssistant from "./components/layout/ChatAssistant.svelte";
   import SuperpositionStepContent from "./components/lessons/superposition/StepContent.svelte";
+  import EntanglementStepContent from "./components/lessons/entanglement/StepContent.svelte";
   import ThemeToggle from "./components/ui/ThemeToggle.svelte";
 </script>
 
@@ -15,6 +16,8 @@
     <LessonLayout>
       {#if $currentLesson.id === "superposition"}
         <SuperpositionStepContent />
+      {:else if $currentLesson.id === "entanglement"}
+        <EntanglementStepContent />
       {/if}
     </LessonLayout>
 

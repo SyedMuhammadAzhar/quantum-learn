@@ -52,8 +52,48 @@ export const lessons = {
         subtitle: 'Spooky action at a distance',
         icon: '🔗',
         color: '#e74c3c',
-        steps: [],
-        locked: true
+        steps: [
+            {
+                id: 'intro',
+                title: 'Welcome to Entanglement',
+                type: 'intro'
+            },
+            {
+                id: 'what-is',
+                title: 'What is Entanglement?',
+                type: 'explanation'
+            },
+            {
+                id: 'bell-states',
+                title: 'Bell States & EPR Pairs',
+                type: 'math'
+            },
+            {
+                id: 'correlation',
+                title: 'Measurement Correlations',
+                type: 'explanation'
+            },
+            {
+                id: 'spooky',
+                title: 'Spooky Action at a Distance',
+                type: 'history'
+            },
+            {
+                id: 'demo',
+                title: 'Try It Yourself!',
+                type: 'demo'
+            },
+            {
+                id: 'faq',
+                title: 'FAQ',
+                type: 'faq'
+            },
+            {
+                id: 'quiz',
+                title: 'Quiz',
+                type: 'quiz'
+            }
+        ]
     },
     measurement: {
         id: 'measurement',
