@@ -1,17 +1,27 @@
-# QuantumLearn 🚀
+# QuantumLearn
 
-An interactive quantum computing education platform built with Svelte and FastAPI. Learn quantum computing concepts through hands-on visualizations and real quantum circuit simulations powered by Qiskit.
+An interactive quantum computing education platform designed to make quantum mechanics accessible through hands-on visualizations and real quantum circuit simulations. Built with modern web technologies and powered by Qiskit, this platform provides an engaging learning experience for students, educators, and quantum computing enthusiasts.
 
-## 🌟 Features
+## Features
 
-- **Interactive Lessons**: Step-by-step lessons on quantum computing fundamentals
-- **Quantum Simulations**: Real quantum circuit simulations using Qiskit
-- **Visual Learning**: Interactive coin flip demonstrations showing quantum superposition
-- **Dark Mode**: Toggle between light and dark themes for comfortable learning
-- **AI Assistant**: Built-in chat assistant powered by Groq API for real-time help
-- **Quizzes & FAQs**: Test your knowledge and get answers to common questions
+### Interactive Learning Experience
+- **Step-by-Step Lessons**: Comprehensive lessons on quantum computing fundamentals including superposition and entanglement
+- **Real Quantum Simulations**: Authentic quantum circuit simulations powered by Qiskit's quantum computing framework
+- **Visual Demonstrations**: Interactive visualizations including quantum coin flips and Bell state measurements
+- **Live Statistics**: Real-time probability tracking and measurement statistics with visual charts
 
-## 🛠️ Tech Stack
+### User Experience
+- **Dark Mode Support**: Seamless theme switching with persistent user preferences
+- **AI-Powered Assistant**: Integrated chat assistant using Groq API for instant help and explanations
+- **Interactive Quizzes**: Knowledge assessment with immediate feedback and detailed explanations
+- **Comprehensive FAQ**: Common questions answered with beginner-friendly language
+
+### Advanced Features
+- **Bell State Demonstrations**: Interactive Alice & Bob entanglement experiments with space-themed visualizations
+- **Batch Measurements**: Run multiple quantum measurements (1x, 10x, 100x) to observe probability convergence
+- **Animated Visualizations**: GSAP-powered animations showing quantum particle behavior and entanglement correlations
+
+## Tech Stack
 
 **Frontend:**
 - Svelte 5.43.5
@@ -25,14 +35,14 @@ An interactive quantum computing education platform built with Svelte and FastAP
 - Qiskit Aer 0.13.3 (Quantum circuit simulator)
 - Uvicorn (ASGI server)
 
-## 📋 Prerequisites
+## Prerequisites
 
-- **Node.js** (v16 or higher)
-- **Python** (v3.9 or higher)
-- **npm** or **yarn**
-- **pip** (Python package manager)
+- Node.js (v16 or higher)
+- Python (v3.9 or higher)
+- npm or yarn package manager
+- pip (Python package manager)
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 
@@ -110,9 +120,9 @@ npm run dev
 
 The app will be available at http://localhost:5173
 
-## 🎯 Running Both Servers
+## Running Both Servers
 
-You need both the backend and frontend running simultaneously:
+For full functionality, run both backend and frontend simultaneously:
 
 **Terminal 1 - Backend:**
 ```bash
@@ -129,7 +139,7 @@ npm run dev
 
 Then open your browser to http://localhost:5173
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 quantum-learn/
@@ -156,7 +166,7 @@ quantum-learn/
 └── README.md                   # This file
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Backend Configuration
 
@@ -181,26 +191,28 @@ The backend allows requests from the following origins (configured in `main.py`)
 
 Add more origins if needed.
 
-## 🎨 Features Overview
+## Learning Features Overview
 
-### Quantum Coin Flip
-- Single and double coin demonstrations
-- Real quantum circuit simulation
-- Visual representation of superposition
-- Statistics tracking with probability convergence
+### Quantum Superposition
+- Single and multi-coin quantum demonstrations
+- Real quantum circuit execution with Qiskit simulator
+- Visual representation of quantum state superposition
+- Probability tracking showing convergence to theoretical values
 
-### Lessons
-- **Superposition**: Learn about quantum states and superposition
-- Interactive step-by-step content
-- Code examples and visual analogies
-- Quizzes to test understanding
+### Quantum Entanglement
+- Interactive Alice & Bob measurement scenarios
+- All four Bell states (Φ⁺, Ψ⁺, Φ⁻, Ψ⁻) with live switching
+- Space-themed visualization with Earth and Mars locations
+- Instant correlation demonstrations across distance
+- Real-time measurement statistics and pattern analysis
 
-### Dark Mode
-- Toggle between light and dark themes
-- Persistent theme preference (saved in localStorage)
-- All components optimized for both themes
+### Educational Tools
+- Progressive lesson structure with clear explanations
+- Interactive quizzes with instant feedback
+- Detailed FAQs covering common quantum mechanics questions
+- Code examples and visual analogies for complex concepts
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Backend won't start (Port 8000 already in use)
 
@@ -236,24 +248,42 @@ If using Windows and you get script execution errors, enable script execution:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-## 📚 Learn More
+## Learn More
 
-- [Qiskit Documentation](https://qiskit.org/documentation/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Svelte Documentation](https://svelte.dev/)
+### Quantum Computing Resources
+- [Qiskit Documentation](https://qiskit.org/documentation/) - IBM's quantum computing framework
+- [Qiskit Textbook](https://qiskit.org/textbook/) - Free online quantum computing course
 
-## 🤝 Contributing
+### Framework Documentation
+- [FastAPI Documentation](https://fastapi.tiangolo.com/) - Modern Python web framework
+- [Svelte Documentation](https://svelte.dev/) - Reactive JavaScript framework
+- [Vite Documentation](https://vitejs.dev/) - Next generation frontend tooling
+
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
 
 This project is licensed under the MIT License.
 
-## 👨‍💻 Authors
+## Authors
 
-- Syed Muhammad Azhar - [@SyedMuhammadAzhar](https://github.com/SyedMuhammadAzhar)
+**Core Contributors:**
+- **Syed Muhammad Azhar** - [@SyedMuhammadAzhar](https://github.com/SyedMuhammadAzhar)
+- **Zahid Ali** - [@zaahidali](https://github.com/zaahidali)
+- **Kalsoom Athar** - [@Kalsoom-Athar](https://github.com/Kalsoom-Athar)
+
+## Acknowledgments
+
+Built with passion for quantum education. Special thanks to the Qiskit community and all contributors who helped make quantum computing more accessible.
 
 ---
 
-**Happy Quantum Learning! 🎓✨**
+**Happy Quantum Learning!**
