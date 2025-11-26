@@ -101,9 +101,49 @@ export const lessons = {
         subtitle: 'Observing changes reality',
         icon: '👁️',
         color: '#27ae60',
-        steps: [],
-        locked: true
-    }
+        steps: [
+            {
+                id: 'intro',
+                title: 'Welcome to Measurement',
+                type: 'intro'
+            },
+            {
+                id: 'what-happens',
+                title: 'What Happens When You Measure?',
+                type: 'explanation'
+            },
+            {
+                id: 'born-rule',
+                title: 'The Born Rule',
+                type: 'math'
+            },
+            {
+                id: 'measurement-bases',
+                title: 'Measurement Bases',
+                type: 'explanation'
+            },
+            {
+                id: 'schrodinger',
+                title: 'Schrödinger\'s Cat',
+                type: 'analogy'
+            },
+            {
+                id: 'demo',
+                title: 'Try It Yourself!',
+                type: 'demo'
+            },
+            {
+                id: 'faq',
+                title: 'FAQ',
+                type: 'faq'
+            },
+            {
+                id: 'quiz',
+                title: 'Quiz',
+                type: 'quiz'
+            }
+        ]
+    },
 };
 
 // Current lesson state

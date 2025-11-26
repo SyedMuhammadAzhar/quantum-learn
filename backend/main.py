@@ -64,7 +64,7 @@ class CircuitResponse(BaseModel):
     circuit_diagram: str
 
 
-# ==================== NEW: Bell State Models ====================
+# ==================== Bell State Models ====================
 
 class BellStateRequest(BaseModel):
     state: str  # phi_plus, psi_plus, phi_minus, psi_minus
@@ -90,6 +90,33 @@ class BellStateBatchResponse(BaseModel):
     description: str
 
 
+# ==================== Measurement Models ====================
+
+class MeasureQubitRequest(BaseModel):
+    state: str  # equal, biased_0, biased_1, definite_0, definite_1
+    basis: str = "z"  # z or x
+
+
+class MeasureQubitBatchRequest(BaseModel):
+    state: str
+    basis: str = "z"
+    shots: int = 100
+
+
+class MeasureQubitResponse(BaseModel):
+    result: str
+    state: str
+    basis: str
+
+
+class MeasureQubitBatchResponse(BaseModel):
+    counts: dict
+    total_shots: int
+    state: str
+    basis: str
+    percentages: dict
+
+
 # ==================== Health Check ====================
 
 @app.get("/")
@@ -110,6 +137,10 @@ def root():
                 "/api/bell-state-measure",
                 "/api/bell-state-batch",
                 "/api/bell-states/info"
+            ],
+            "measurement": [
+                "/api/measure-qubit",
+                "/api/measure-qubit-batch"
             ],
             "docs": "/docs"
         }
@@ -253,11 +284,51 @@ def get_bell_states_info():
     }
 
 
+# ==================== MEASUREMENT ENDPOINTS ====================
+
+@app.post("/api/measure-qubit", response_model=MeasureQubitResponse)
+def measure_qubit(request: MeasureQubitRequest):
+    """
+    Measure a prepared quantum state in a chosen basis.
+    
+    Demonstrates wavefunction collapse and Born rule.
+    
+    States:
+    - equal: (|0⟩ + |1⟩)/√2 - 50/50 superposition
+    - biased_0: (√3|0⟩ + |1⟩)/2 - 75% for 0
+    - biased_1: (|0⟩ + √3|1⟩)/2 - 75% for 1
+    - definite_0: |0⟩ - always 0
+    - definite_1: |1⟩ - always 1
+    
+    Bases:
+    - z: Computational basis (standard 0 or 1)
+    - x: Hadamard basis (+ or -)
+    """
+    try:
+        return quantum_service.measure_qubit(request.state, request.basis)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/measure-qubit-batch", response_model=MeasureQubitBatchResponse)
+def measure_qubit_batch(request: MeasureQubitBatchRequest):
+    """
+    Measure a quantum state multiple times to observe probability distribution.
+    
+    Shows Born Rule in action: P(outcome) = |amplitude|²
+    """
+    shots = max(1, min(request.shots, 10000))
+    try:
+        return quantum_service.measure_qubit_batch(request.state, request.basis, shots)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 # ==================== Run Server ====================
 
 if __name__ == "__main__":
     import uvicorn
     print("🚀 Starting QuantumLearn API server...")
     print("📍 API docs available at: http://localhost:8000/docs")
-    print("📚 Lessons: Superposition ✅ | Entanglement ✅")
+    print("📚 Lessons: Superposition ✅ | Entanglement ✅ | Measurement ✅")
     uvicorn.run(app, host="0.0.0.0", port=8000)

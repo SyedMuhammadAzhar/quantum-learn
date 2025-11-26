@@ -9,6 +9,7 @@ class QuantumService:
     Implements:
     - Superposition: Hadamard gates for coin flip simulations
     - Entanglement: Bell states for quantum correlation demonstrations
+    - Measurement: Different states and bases to demonstrate wavefunction collapse
     """
     
     def __init__(self):
@@ -334,6 +335,120 @@ class QuantumService:
         """Get text representation of Bell state circuit."""
         qc = self.create_bell_state(state_type)
         return qc.draw(output='text').single_string()
+    
+    # ==================== MEASUREMENT (Different States & Bases) ====================
+    
+    def measure_qubit(self, state: str, basis: str = "z") -> Dict:
+        """
+        Measure a prepared quantum state in a chosen basis.
+        
+        States:
+        - equal: (|0⟩ + |1⟩)/√2 - 50/50 superposition
+        - biased_0: (√3|0⟩ + |1⟩)/2 - 75% for 0
+        - biased_1: (|0⟩ + √3|1⟩)/2 - 75% for 1
+        - definite_0: |0⟩ - always 0
+        - definite_1: |1⟩ - always 1
+        
+        Bases:
+        - z: Computational basis (0 or 1)
+        - x: Hadamard basis (+ or -)
+        
+        Returns:
+            Dict with result and state information
+        """
+        qc = QuantumCircuit(1, 1)
+        
+        # Prepare the state
+        if state == "equal":
+            qc.h(0)  # Equal superposition
+        elif state == "biased_0":
+            # (√3|0⟩ + |1⟩)/2
+            qc.ry(2 * 0.5236, 0)  # arcsin(1/2) ≈ 0.5236
+        elif state == "biased_1":
+            # (|0⟩ + √3|1⟩)/2
+            qc.ry(2 * 1.0472, 0)  # arcsin(√3/2) ≈ 1.0472
+        elif state == "definite_0":
+            pass  # Already |0⟩
+        elif state == "definite_1":
+            qc.x(0)  # Flip to |1⟩
+        else:
+            raise ValueError(f"Unknown state: {state}")
+        
+        # Apply measurement basis rotation
+        if basis == "x":
+            qc.h(0)  # Rotate to X-basis
+        elif basis != "z":
+            raise ValueError(f"Unknown basis: {basis}")
+        
+        # Measure
+        qc.measure(0, 0)
+        
+        # Run circuit
+        result = self.simulator.run(qc, shots=1).result()
+        counts = result.get_counts()
+        measurement = list(counts.keys())[0]
+        
+        return {
+            "result": measurement,
+            "state": state,
+            "basis": basis
+        }
+    
+    def measure_qubit_batch(self, state: str, basis: str = "z", shots: int = 100) -> Dict:
+        """
+        Measure a quantum state multiple times to see probability distribution.
+        
+        Args:
+            state: One of equal, biased_0, biased_1, definite_0, definite_1
+            basis: "z" or "x"
+            shots: Number of measurements
+            
+        Returns:
+            Dict with counts and probabilities
+        """
+        qc = QuantumCircuit(1, 1)
+        
+        # Prepare the state
+        if state == "equal":
+            qc.h(0)
+        elif state == "biased_0":
+            qc.ry(2 * 0.5236, 0)
+        elif state == "biased_1":
+            qc.ry(2 * 1.0472, 0)
+        elif state == "definite_0":
+            pass
+        elif state == "definite_1":
+            qc.x(0)
+        else:
+            raise ValueError(f"Unknown state: {state}")
+        
+        # Apply measurement basis rotation
+        if basis == "x":
+            qc.h(0)
+        elif basis != "z":
+            raise ValueError(f"Unknown basis: {basis}")
+        
+        # Measure
+        qc.measure(0, 0)
+        
+        # Run circuit
+        result = self.simulator.run(qc, shots=shots).result()
+        counts = result.get_counts()
+        
+        # Ensure both outcomes are present
+        all_counts = {"0": 0, "1": 0}
+        all_counts.update(counts)
+        
+        return {
+            "counts": all_counts,
+            "total_shots": shots,
+            "state": state,
+            "basis": basis,
+            "percentages": {
+                "0": round((all_counts["0"] / shots) * 100, 2),
+                "1": round((all_counts["1"] / shots) * 100, 2)
+            }
+        }
 
 
 # Create singleton instance

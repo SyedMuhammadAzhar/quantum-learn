@@ -11,6 +11,7 @@
   // Import lesson components
   import SuperpositionStepContent from "../lessons/superposition/StepContent.svelte";
   import EntanglementStepContent from "../lessons/entanglement/StepContent.svelte";
+  import MeasurementStepContent from "../lessons/measurement/StepContent.svelte";
 
   function handleExit() {
     lessonStore.exitLesson();
@@ -87,6 +88,8 @@
           <SuperpositionStepContent />
         {:else if $currentLesson.id === 'entanglement'}
           <EntanglementStepContent />
+        {:else if $currentLesson.id === 'measurement'}
+          <MeasurementStepContent />
         {:else}
           <div class="no-content">
             <h2>Lesson content not available</h2>
