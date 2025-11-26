@@ -63,6 +63,8 @@
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: block;
+    width: 100%;
 }
 
 [data-theme="dark"] .question-card {
@@ -75,6 +77,10 @@
     color: #2d3748;
     margin-bottom: 2rem;
     line-height: 1.5;
+    width: 100%;
+    display: block;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 [data-theme="dark"] .question-text {
