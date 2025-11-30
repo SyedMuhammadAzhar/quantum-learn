@@ -17,6 +17,8 @@
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .state-label {
