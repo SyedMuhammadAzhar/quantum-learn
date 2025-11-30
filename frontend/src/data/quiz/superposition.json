@@ -3,11 +3,11 @@
   "questions": [
     {
       "id": 1,
-      "question": "How is a regular coin flip different from a quantum coin flip?",
+      "question": "What's the key difference between a regular coin and a quantum coin?",
       "options": [
         {
           "id": "a",
-          "text": "A regular coin is always heads or tails, we just don't know which",
+          "text": "A regular coin is always one side, even when spinning - a quantum coin is genuinely BOTH until you look",
           "correct": true
         },
         {
@@ -17,16 +17,16 @@
         },
         {
           "id": "c",
-          "text": "There is no difference at all",
+          "text": "There is no difference - both are random",
           "correct": false
         },
         {
           "id": "d",
-          "text": "A regular coin can be both sides at once",
+          "text": "A regular coin can be both sides at once too",
           "correct": false
         }
       ],
-      "explanation": "Exactly! A regular coin is ALWAYS either heads or tails - we just don't know which until we look. A quantum coin is actually BOTH heads and tails simultaneously until measured. That's the key difference! 🪙"
+      "explanation": "Exactly! A regular coin is ALWAYS either heads or tails - even while spinning, it has a definite side facing up at each moment. But a quantum coin is actually BOTH heads AND tails at the same time until you measure it! This is what makes quantum so strange and powerful. 🪙"
     },
     {
       "id": 2,

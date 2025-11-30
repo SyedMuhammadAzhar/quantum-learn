@@ -1,5 +1,5 @@
 <script>
-  import './stepContent.css';
+  import "./stepContent.css";
   // @ts-nocheck
 
   import { currentStep } from "../../../stores/lessonStore.js";
@@ -20,57 +20,146 @@
         Get ready to explore one of the most mind-bending concepts in physics:
         <strong>Superposition</strong>.
       </p>
+
+      <div class="what-youll-learn">
+        <h3>🎯 What You'll Learn</h3>
+        <div class="learn-items">
+          <div class="learn-item">
+            <span class="learn-icon">🪙</span>
+            <p>
+              How quantum "things" can be in <strong>two states at once</strong>
+            </p>
+          </div>
+          <div class="learn-item">
+            <span class="learn-icon">🖥️</span>
+            <p>
+              Why quantum computers are <strong>different</strong> from regular computers
+            </p>
+          </div>
+          <div class="learn-item">
+            <span class="learn-icon">🎮</span>
+            <p>
+              Play with a <strong>real quantum simulator</strong> to see it yourself!
+            </p>
+          </div>
+        </div>
+      </div>
+
       <Card variant="info">
-        <p>
-          In everyday life, things are either one way or another. A light is ON
-          or OFF. A coin shows heads OR tails.
-        </p>
+        <h4>🤔 The Big Idea</h4>
+        <p>In everyday life, things are either one way or another:</p>
+        <div class="everyday-examples">
+          <span>💡 Light is ON or OFF</span>
+          <span>🚪 Door is OPEN or CLOSED</span>
+          <span>🪙 Coin is HEADS or TAILS</span>
+        </div>
         <p>
           But in the quantum world, things can be <strong
             >both at the same time</strong
-          >!
+          >! This is called <strong>Superposition</strong>.
         </p>
       </Card>
+
       <div class="fun-fact">
-        <span class="fact-icon">💡</span>
+        <span class="fact-icon">🚀</span>
         <p>
-          <strong>Fun Fact:</strong> Quantum computers use this "both at once" trick
-          to solve problems that would take regular computers millions of years!
+          <strong>Why Should You Care?</strong> Quantum computers use this "both
+          at once" trick to solve problems that would take regular computers millions
+          of years! They could help discover new medicines, create unbreakable security,
+          and solve climate change problems.
+        </p>
+      </div>
+
+      <div class="no-math-promise">
+        <span class="promise-icon">✨</span>
+        <p>
+          <strong>No complicated math needed!</strong> We'll explain everything with
+          simple examples and fun animations.
         </p>
       </div>
     </div>
   {:else if $currentStep?.id === "classical"}
     <div class="classical-step">
       <h1>Classical vs Quantum</h1>
-      <p class="lead">Let's see what makes quantum so special.</p>
+      <p class="lead">
+        Let's see what makes quantum computers so special compared to regular
+        computers.
+      </p>
+
+      <div class="simple-explanation">
+        <Card variant="info">
+          <h4>🤔 First, What is a "Bit"?</h4>
+          <p>
+            A <strong>bit</strong> is the smallest piece of information in a
+            computer. It can only be one of two things: <strong>0</strong> or
+            <strong>1</strong>.
+          </p>
+          <p class="analogy-text">
+            Think of it like a light switch - it's either OFF (0) or ON (1).
+            Nothing in between!
+          </p>
+        </Card>
+      </div>
 
       <div class="comparison">
         <div class="comparison-card classical">
-          <h3>🖥️ Classical Computer</h3>
+          <div class="card-header">🖥️ Regular Computer</div>
+          <h3>Uses BITS</h3>
           <div class="bit-display">
             <div class="bit">0</div>
-            <span>OR</span>
+            <span class="or-text">OR</span>
             <div class="bit">1</div>
           </div>
-          <p>A bit is always 0 <strong>or</strong> 1. Never both.</p>
-          <p>Like a light switch: ON or OFF.</p>
+          <div class="card-explanation">
+            <p>✓ A bit is <strong>always</strong> either 0 or 1</p>
+            <p>✓ Like a light switch: ON or OFF</p>
+            <p>✓ Checks answers <strong>one at a time</strong></p>
+          </div>
         </div>
 
         <div class="comparison-card quantum">
-          <h3>⚛️ Quantum Computer</h3>
+          <div class="card-header">⚛️ Quantum Computer</div>
+          <h3>Uses QUBITS</h3>
           <div class="qubit-display">
             <div class="qubit spinning">0 & 1</div>
           </div>
-          <p>A qubit can be 0 <strong>and</strong> 1 simultaneously!</p>
-          <p>Like a spinning coin: both sides at once.</p>
+          <div class="card-explanation">
+            <p>✓ A qubit can be 0 <strong>AND</strong> 1 at the same time!</p>
+            <p>✓ Like a spinning coin: both sides at once</p>
+            <p>✓ Checks <strong>many answers simultaneously</strong></p>
+          </div>
         </div>
       </div>
 
-      <Card>
+      <div class="power-example">
+        <h4>💡 Why Is This So Powerful?</h4>
+        <div class="power-comparison">
+          <div class="power-item classical-power">
+            <span class="power-label">Regular Computer</span>
+            <p>
+              Imagine searching for a name in a phone book with 1 million names.
+            </p>
+            <p class="power-result">
+              Checks names <strong>one by one</strong> = Could take 1 million checks!
+            </p>
+          </div>
+          <div class="power-item quantum-power">
+            <span class="power-label">Quantum Computer</span>
+            <p>The same phone book with 1 million names.</p>
+            <p class="power-result">
+              Checks <strong>many at once</strong> = Could take only ~1000 checks!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <Card variant="success">
+        <h4>🎯 Key Takeaway</h4>
         <p>
-          <strong>Why does this matter?</strong> Because while a classical computer
-          checks possibilities one by one, a quantum computer can explore many possibilities
-          at once!
+          The magic word is <strong>"AND"</strong> instead of
+          <strong>"OR"</strong>. Regular bits are 0 OR 1. Quantum bits (qubits)
+          are 0 AND 1. This lets quantum computers solve certain problems much,
+          much faster!
         </p>
       </Card>
     </div>
@@ -114,6 +203,20 @@
           one or the other.
         </p>
       </Card>
+
+      <div class="important-difference">
+        <h4>⚠️ Important: Quantum is NOT Just "Unknown"</h4>
+        <p>
+          When a regular coin is in your closed hand, it's <strong
+            >definitely</strong
+          > one side - you just don't know which.
+        </p>
+        <p>
+          But a quantum coin in superposition is <strong>genuinely both</strong>
+          at the same time! It only "picks a side" when you look at it. This is what
+          makes quantum so strange and powerful.
+        </p>
+      </div>
 
       <div class="quantum-connection">
         <h4>In Quantum Terms:</h4>
@@ -189,24 +292,73 @@
       </p>
 
       <Card variant="info">
-        <h4>🔬 What You Can Do</h4>
-        <p>
-          <strong>Single Coin:</strong> 1 qubit with Hadamard gate → 50% heads, 50%
-          tails
-        </p>
-        <p>
-          <strong>Double Coin:</strong> 2 qubits with Hadamard gates → 25% each of
-          4 outcomes
-        </p>
+        <h4>🎯 How to Use This Demo</h4>
+        <div class="demo-instructions">
+          <div class="instruction-step">
+            <span class="step-number">1</span>
+            <p>
+              <strong>Choose Single or Double Coin</strong> - Start with single to
+              understand the basics
+            </p>
+          </div>
+          <div class="instruction-step">
+            <span class="step-number">2</span>
+            <p>
+              <strong>Click "Measure"</strong> - Watch the quantum coin collapse
+              from superposition to a definite state
+            </p>
+          </div>
+          <div class="instruction-step">
+            <span class="step-number">3</span>
+            <p>
+              <strong>Run 100 Measurements</strong> - See how probabilities converge
+              to ~50/50 over many trials!
+            </p>
+          </div>
+        </div>
         <p class="hint">
-          Try running 100 measurements to see the probabilities converge to
-          theoretical values!
+          💡 Notice: Each measurement is truly random - quantum randomness, not
+          pseudo-random like regular computers!
         </p>
       </Card>
 
       <MultiCoinFlip />
 
-      <Card variant="success" style="margin-top: 24px;">
+      <div class="why-matters">
+        <h4>🚀 Why This Matters</h4>
+        <div class="matters-grid">
+          <div class="matters-item">
+            <span class="matters-icon">💊</span>
+            <div>
+              <strong>Drug Discovery</strong>
+              <p>Simulate molecules to find new medicines faster</p>
+            </div>
+          </div>
+          <div class="matters-item">
+            <span class="matters-icon">🔐</span>
+            <div>
+              <strong>Cryptography</strong>
+              <p>Create unbreakable encryption for secure communications</p>
+            </div>
+          </div>
+          <div class="matters-item">
+            <span class="matters-icon">🧠</span>
+            <div>
+              <strong>AI & Machine Learning</strong>
+              <p>Train AI models exponentially faster</p>
+            </div>
+          </div>
+          <div class="matters-item">
+            <span class="matters-icon">📦</span>
+            <div>
+              <strong>Optimization</strong>
+              <p>Find the best routes, schedules, and solutions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Card variant="success">
         <h4>What Did You Learn?</h4>
         <ul class="learn-list">
           <li>

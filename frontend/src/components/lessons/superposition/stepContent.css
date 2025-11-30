@@ -53,7 +53,118 @@ h1 {
   margin: 0;
 }
 
+/* What You'll Learn Section */
+.what-youll-learn {
+  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+[data-theme="dark"] .what-youll-learn {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(124, 58, 237, 0.15));
+}
+
+.what-youll-learn h3 {
+  margin: 0 0 16px 0;
+  color: #5b21b6;
+}
+
+[data-theme="dark"] .what-youll-learn h3 {
+  color: #a78bfa;
+}
+
+.learn-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.learn-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .learn-item {
+  background: var(--color-surface);
+}
+
+.learn-icon {
+  font-size: 24px;
+}
+
+.learn-item p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Everyday Examples */
+.everyday-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.everyday-examples span {
+  background: #e0e7ff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .everyday-examples span {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+/* No Math Promise */
+.no-math-promise {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+[data-theme="dark"] .no-math-promise {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(22, 163, 74, 0.15));
+}
+
+.promise-icon {
+  font-size: 28px;
+}
+
+.no-math-promise p {
+  margin: 0;
+  color: #166534;
+}
+
+[data-theme="dark"] .no-math-promise p {
+  color: #86efac;
+}
+
 /* Classical vs Quantum */
+.simple-explanation {
+  margin-bottom: 24px;
+}
+
+.analogy-text {
+  font-style: italic;
+  color: #6366f1;
+  margin-top: 12px !important;
+}
+
+[data-theme="dark"] .analogy-text {
+  color: #a5b4fc;
+}
+
 .comparison {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -67,6 +178,16 @@ h1 {
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+}
+
+.comparison-card.classical {
+  border-color: #e2e8f0;
+}
+
+.comparison-card.quantum {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
 }
 
 [data-theme="dark"] .comparison-card {
@@ -74,8 +195,43 @@ h1 {
   color: var(--color-text-primary);
 }
 
+[data-theme="dark"] .comparison-card.quantum {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+}
+
+.card-header {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+[data-theme="dark"] .card-header {
+  color: var(--color-text-secondary);
+}
+
 .comparison-card h3 {
-  margin-top: 0;
+  margin: 0 0 16px 0;
+  font-size: 18px;
+}
+
+.card-explanation {
+  text-align: left;
+  margin-top: 16px;
+}
+
+.card-explanation p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #475569;
+}
+
+[data-theme="dark"] .card-explanation p {
+  color: var(--color-text-secondary);
+}
+
+.or-text {
+  font-weight: bold;
+  color: #94a3b8;
 }
 
 .bit-display {
@@ -133,6 +289,73 @@ h1 {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Power Example Section */
+.power-example {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+[data-theme="dark"] .power-example {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15));
+}
+
+.power-example h4 {
+  margin: 0 0 16px 0;
+  color: #92400e;
+}
+
+[data-theme="dark"] .power-example h4 {
+  color: #fbbf24;
+}
+
+.power-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.power-item {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .power-item {
+  background: var(--color-surface);
+}
+
+.power-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.classical-power .power-label {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.quantum-power .power-label {
+  background: #667eea;
+  color: white;
+}
+
+.power-item p {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+}
+
+.power-result {
+  color: #059669;
+  font-weight: 500;
 }
 
 /* Coin Analogy */
@@ -255,6 +478,33 @@ h1 {
   font-size: 15px;
 }
 
+/* Important Difference Section */
+.important-difference {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  padding: 20px;
+  border-radius: 16px;
+  margin: 24px 0;
+  border-left: 4px solid #ef4444;
+}
+
+[data-theme="dark"] .important-difference {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+}
+
+.important-difference h4 {
+  margin: 0 0 12px 0;
+  color: #dc2626;
+}
+
+[data-theme="dark"] .important-difference h4 {
+  color: #f87171;
+}
+
+.important-difference p {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
 /* Math Step */
 .notation {
   display: flex;
@@ -308,6 +558,105 @@ h1 {
   /* Uses MultiCoinFlip component styling */
 }
 
+.demo-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.instruction-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.step-number {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.instruction-step p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Why This Matters Section */
+.why-matters {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  padding: 24px;
+  border-radius: 16px;
+  margin: 24px 0;
+}
+
+[data-theme="dark"] .why-matters {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 95, 70, 0.15));
+}
+
+.why-matters h4 {
+  margin: 0 0 16px 0;
+  color: #065f46;
+}
+
+[data-theme="dark"] .why-matters h4 {
+  color: #34d399;
+}
+
+.matters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.matters-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .matters-item {
+  background: var(--color-surface);
+}
+
+.matters-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.matters-item strong {
+  display: block;
+  font-size: 14px;
+  color: #065f46;
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .matters-item strong {
+  color: #34d399;
+}
+
+.matters-item p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+[data-theme="dark"] .matters-item p {
+  color: var(--color-text-secondary);
+}
+
 .hint {
   font-size: 13px;
   color: #6366f1;
@@ -340,6 +689,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .power-comparison {
+    grid-template-columns: 1fr;
+  }
+
   .analogy-stage {
     flex-direction: column;
     gap: 24px;
@@ -352,5 +705,17 @@ h1 {
   .notation {
     flex-direction: column;
     gap: 24px;
+  }
+
+  .matters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .everyday-examples {
+    flex-direction: column;
+  }
+
+  .everyday-examples span {
+    text-align: center;
   }
 }
