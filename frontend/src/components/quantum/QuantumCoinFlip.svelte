@@ -1,5 +1,5 @@
 <script>
-  import './quantumCoinFlip.css';
+  import "./quantumCoinFlip.css";
   // @ts-nocheck
 
   import { onMount } from "svelte";
@@ -22,6 +22,7 @@
   let currentResult = $state(null);
   let stateLabel = $state("Superposition");
   let errorMessage = $state("");
+  let batchProgress = $state(0);
 
   async function measure() {
     if (isMeasuring) return;
@@ -66,22 +67,49 @@
 
     isMeasuring = true;
     errorMessage = "";
+    batchProgress = 0;
 
     try {
+      // Start the API call
       const batchPromise = quantumCoinApi.flipBatch(100);
-      const animPromise = coinComponent
-        ? coinComponent.animateBatch()
-        : Promise.resolve();
 
-      const [response] = await Promise.all([batchPromise, animPromise]);
+      // Animate rapid flipping while waiting
+      const animationDuration = 2000;
+      const flipsToShow = 20;
+      const flipInterval = animationDuration / flipsToShow;
+
+      for (let i = 0; i < flipsToShow; i++) {
+        batchProgress = Math.floor((i / flipsToShow) * 100);
+        isSpinning = true;
+        await new Promise((resolve) => setTimeout(resolve, flipInterval / 2));
+
+        // Show random result briefly
+        currentResult = Math.random() > 0.5 ? 1 : 0;
+        stateLabel = currentResult === 0 ? "Heads" : "Tails";
+        isSpinning = false;
+
+        if (coinComponent) {
+          await coinComponent.animateCollapse(currentResult);
+        }
+        await new Promise((resolve) => setTimeout(resolve, flipInterval / 2));
+      }
+
+      // Wait for API response
+      const response = await batchPromise;
 
       coinFlipStore.addBatch(response.zeros, response.ones);
       stateLabel = `Batch: ${response.zeros}H / ${response.ones}T`;
+      batchProgress = 100;
+
+      // Show final dominant result
+      currentResult = response.zeros > response.ones ? 0 : 1;
+      isSpinning = false;
     } catch (error) {
       console.error("Batch flip failed:", error);
       errorMessage = error.message;
     } finally {
       isMeasuring = false;
+      batchProgress = 0;
     }
   }
 

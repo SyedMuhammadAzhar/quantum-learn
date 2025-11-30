@@ -25,6 +25,8 @@
   let isSpinning = $state(true);
   let isMeasuring = $state(false);
   let errorMessage = $state("");
+  let isAnimatingBatch = $state(false);
+  let batchFlipCount = $state(0);
 
   // Derived: Single coin percentages
   let singlePercentages = $derived({
@@ -108,14 +110,52 @@
   async function runBatch() {
     if (isMeasuring) return;
     isMeasuring = true;
+    isAnimatingBatch = true;
     errorMessage = "";
 
     try {
+      // Animate rapid flipping for visual effect
+      const totalFlips = 100;
+      const animationDuration = 2000; // 2 seconds total
+      const flipInterval = animationDuration / 20; // Show ~20 rapid flips
+
+      // Start rapid flip animation
+      for (let i = 0; i < 20; i++) {
+        batchFlipCount = Math.floor((i / 20) * totalFlips);
+        isSpinning = true;
+        await new Promise((resolve) => setTimeout(resolve, flipInterval / 2));
+
+        // Show random result briefly
+        if (mode === "single") {
+          singleResult = {
+            result: Math.random() > 0.5 ? 1 : 0,
+            result_label: Math.random() > 0.5 ? "Tails" : "Heads",
+          };
+        } else {
+          const coin1 = Math.random() > 0.5 ? 1 : 0;
+          const coin2 = Math.random() > 0.5 ? 1 : 0;
+          doubleResult = {
+            coin1,
+            coin2,
+            coin1_label: coin1 === 0 ? "Heads" : "Tails",
+            coin2_label: coin2 === 0 ? "Heads" : "Tails",
+          };
+        }
+        isSpinning = false;
+        await new Promise((resolve) => setTimeout(resolve, flipInterval / 2));
+      }
+
+      // Now do the actual API call
       if (mode === "single") {
         const response = await quantumCoinApi.flipBatch(100);
         singleStats.total += response.total_shots;
         singleStats.heads += response.zeros;
         singleStats.tails += response.ones;
+        // Show final state
+        singleResult = {
+          result: response.zeros > response.ones ? 0 : 1,
+          result_label: response.zeros > response.ones ? "Heads" : "Tails",
+        };
       } else {
         const response = await doubleCoinApi.flipBatch(100);
         doubleStats.total += response.total_shots;
@@ -123,11 +163,24 @@
         doubleStats.counts["01"] += response.counts["01"];
         doubleStats.counts["10"] += response.counts["10"];
         doubleStats.counts["11"] += response.counts["11"];
+        // Show the most frequent result
+        const maxKey = Object.entries(response.counts).reduce((a, b) =>
+          a[1] > b[1] ? a : b
+        )[0];
+        doubleResult = {
+          coin1: parseInt(maxKey[0]),
+          coin2: parseInt(maxKey[1]),
+          coin1_label: maxKey[0] === "0" ? "Heads" : "Tails",
+          coin2_label: maxKey[1] === "0" ? "Heads" : "Tails",
+        };
       }
+      batchFlipCount = totalFlips;
     } catch (error) {
       errorMessage = error.message;
     } finally {
       isMeasuring = false;
+      isAnimatingBatch = false;
+      isSpinning = false;
     }
   }
 
@@ -259,29 +312,35 @@
       <!-- Single Coin -->
       <div class="single-coin-container">
         <div
-          class="coin-3d"
+          class="coin-wrapper-3d"
           class:spinning={isSpinning}
-          class:measured={!isSpinning}
+          class:batch-spinning={isAnimatingBatch}
         >
-          {#if isSpinning}
-            <div class="coin-face superposition">
-              <span class="question">?</span>
+          <div
+            class="coin-3d"
+            class:measured={!isSpinning && singleResult}
+            class:show-tails={!isSpinning &&
+              singleResult &&
+              singleResult.result === 1}
+          >
+            <!-- Heads side (front) -->
+            <div class="coin-side coin-heads">
+              <span class="coin-letter">H</span>
             </div>
-          {:else if singleResult}
-            <div
-              class="coin-face"
-              class:heads={singleResult.result === 0}
-              class:tails={singleResult.result === 1}
-            >
-              <span class="result-letter"
-                >{singleResult.result === 0 ? "H" : "T"}</span
-              >
+            <!-- Tails side (back) -->
+            <div class="coin-side coin-tails">
+              <span class="coin-letter">T</span>
             </div>
-          {/if}
+          </div>
         </div>
 
         <div class="state-label">
-          {#if isSpinning}
+          {#if isAnimatingBatch}
+            <span class="state-text batch-text"
+              >Running {batchFlipCount}/100 measurements...</span
+            >
+            <span class="state-description">Watch the quantum randomness!</span>
+          {:else if isSpinning}
             <span class="state-text superposition-text"
               >|ψ⟩ = (|0⟩ + |1⟩) / √2</span
             >
@@ -290,7 +349,9 @@
             >
           {:else if singleResult}
             <span class="state-text measured-text"
-              >|{singleResult.result}⟩ = {singleResult.result_label}</span
+              >|{singleResult.result}⟩ = {singleResult.result === 0
+                ? "HEADS"
+                : "TAILS"}</span
             >
             <span class="state-description">Collapsed to definite state</span>
           {/if}
@@ -303,25 +364,24 @@
           <!-- Coin 1 -->
           <div class="coin-unit">
             <div
-              class="coin-3d"
+              class="coin-wrapper-3d"
               class:spinning={isSpinning}
-              class:measured={!isSpinning}
+              class:batch-spinning={isAnimatingBatch}
             >
-              {#if isSpinning}
-                <div class="coin-face superposition">
-                  <span class="question">?</span>
+              <div
+                class="coin-3d"
+                class:measured={!isSpinning && doubleResult}
+                class:show-tails={!isSpinning &&
+                  doubleResult &&
+                  doubleResult.coin1 === 1}
+              >
+                <div class="coin-side coin-heads">
+                  <span class="coin-letter">H</span>
                 </div>
-              {:else if doubleResult}
-                <div
-                  class="coin-face"
-                  class:heads={doubleResult.coin1 === 0}
-                  class:tails={doubleResult.coin1 === 1}
-                >
-                  <span class="result-letter"
-                    >{doubleResult.coin1 === 0 ? "H" : "T"}</span
-                  >
+                <div class="coin-side coin-tails">
+                  <span class="coin-letter">T</span>
                 </div>
-              {/if}
+              </div>
             </div>
             <span class="coin-name">Qubit 1</span>
           </div>
@@ -333,41 +393,48 @@
           <!-- Coin 2 -->
           <div class="coin-unit">
             <div
-              class="coin-3d"
+              class="coin-wrapper-3d"
               class:spinning={isSpinning}
-              class:measured={!isSpinning}
+              class:batch-spinning={isAnimatingBatch}
               style="animation-delay: 0.15s"
             >
-              {#if isSpinning}
-                <div class="coin-face superposition">
-                  <span class="question">?</span>
+              <div
+                class="coin-3d"
+                class:measured={!isSpinning && doubleResult}
+                class:show-tails={!isSpinning &&
+                  doubleResult &&
+                  doubleResult.coin2 === 1}
+              >
+                <div class="coin-side coin-heads">
+                  <span class="coin-letter">H</span>
                 </div>
-              {:else if doubleResult}
-                <div
-                  class="coin-face"
-                  class:heads={doubleResult.coin2 === 0}
-                  class:tails={doubleResult.coin2 === 1}
-                >
-                  <span class="result-letter"
-                    >{doubleResult.coin2 === 0 ? "H" : "T"}</span
-                  >
+                <div class="coin-side coin-tails">
+                  <span class="coin-letter">T</span>
                 </div>
-              {/if}
+              </div>
             </div>
             <span class="coin-name">Qubit 2</span>
           </div>
         </div>
 
         <div class="state-label">
-          {#if isSpinning}
+          {#if isAnimatingBatch}
+            <span class="state-text batch-text"
+              >Running {batchFlipCount}/100 measurements...</span
+            >
+            <span class="state-description">Watch the quantum randomness!</span>
+          {:else if isSpinning}
             <span class="state-text superposition-text"
               >|ψ⟩ = (|00⟩ + |01⟩ + |10⟩ + |11⟩) / 2</span
             >
             <span class="state-description">4-state superposition!</span>
           {:else if doubleResult}
             <span class="state-text measured-text"
-              >|{doubleResult.coin1}{doubleResult.coin2}⟩ = {doubleResult.coin1_label}
-              & {doubleResult.coin2_label}</span
+              >|{doubleResult.coin1}{doubleResult.coin2}⟩ = {doubleResult.coin1 ===
+              0
+                ? "Heads"
+                : "Tails"}
+              & {doubleResult.coin2 === 0 ? "Heads" : "Tails"}</span
             >
             <span class="state-description">Collapsed to one of 4 states</span>
           {/if}
@@ -378,7 +445,7 @@
 
   <!-- Control Buttons -->
   <div class="control-buttons">
-    {#if isSpinning}
+    {#if isSpinning && !isAnimatingBatch}
       <Button
         variant="danger"
         size="lg"
@@ -387,6 +454,10 @@
         disabled={isMeasuring}
       >
         🔬 Measure (Collapse!)
+      </Button>
+    {:else if isAnimatingBatch}
+      <Button variant="secondary" size="lg" disabled={true}>
+        ⏳ Running measurements...
       </Button>
     {:else}
       <Button variant="success" size="lg" onclick={prepareSuperposition}>
@@ -677,7 +748,11 @@
   }
 
   :global([data-theme="dark"]) .circuit-card {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.5) 0%,
+      rgba(15, 23, 42, 0.5) 100%
+    );
     border-color: var(--color-border);
   }
 
@@ -792,10 +867,15 @@
     display: flex;
     justify-content: center;
     min-height: 220px;
+    overflow: hidden;
   }
 
   :global([data-theme="dark"]) .coin-display-area {
-    background: linear-gradient(180deg, rgba(30, 41, 59, 0.3) 0%, rgba(15, 23, 42, 0.3) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(30, 41, 59, 0.3) 0%,
+      rgba(15, 23, 42, 0.3) 100%
+    );
   }
 
   .single-coin-container,
@@ -804,12 +884,14 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    max-width: 100%;
   }
 
   .coin-pair {
     display: flex;
     align-items: center;
     gap: 24px;
+    max-width: 100%;
   }
 
   .coin-unit {
@@ -817,6 +899,7 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    max-width: 120px;
   }
 
   .coin-separator {
@@ -841,27 +924,68 @@
   }
 
   /* 3D Coin */
+  .coin-wrapper-3d {
+    perspective: 1000px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .coin-wrapper-3d.spinning {
+    animation: none;
+  }
+
+  .coin-wrapper-3d.spinning .coin-3d {
+    animation: spin3d 0.6s linear infinite;
+  }
+
+  .coin-wrapper-3d.batch-spinning .coin-3d {
+    animation: spin3d 0.2s linear infinite;
+  }
+
   .coin-3d {
     width: 100px;
     height: 100px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.2),
-      inset 0 -5px 20px rgba(0, 0, 0, 0.1);
-    transition:
-      transform 0.5s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .coin-3d.spinning {
-    animation: spin3d 0.6s linear infinite;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
   }
 
   .coin-3d.measured {
     animation: bounce 0.5s ease;
+  }
+
+  .coin-3d.show-tails {
+    transform: rotateY(180deg);
+  }
+
+  .coin-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.2),
+      inset 0 -5px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .coin-heads {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  }
+
+  .coin-tails {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    transform: rotateY(180deg);
+  }
+
+  .coin-letter {
+    font-size: 42px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   @keyframes spin3d {
@@ -883,32 +1007,24 @@
     }
   }
 
-  .coin-face {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Keep show-tails transform when bouncing */
+  .coin-3d.measured.show-tails {
+    animation: bounce-tails 0.5s ease;
   }
 
-  .coin-face.superposition {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  @keyframes bounce-tails {
+    0%,
+    100% {
+      transform: rotateY(180deg) scale(1);
+    }
+    50% {
+      transform: rotateY(180deg) scale(1.1);
+    }
   }
 
-  .coin-face.heads {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  }
-
-  .coin-face.tails {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  }
-
-  .question {
-    font-size: 42px;
-    color: white;
-    font-weight: bold;
-    animation: pulse 1s ease-in-out infinite;
+  .batch-text {
+    color: #667eea;
+    animation: pulse 0.5s ease-in-out infinite;
   }
 
   @keyframes pulse {
@@ -919,13 +1035,6 @@
     50% {
       opacity: 0.5;
     }
-  }
-
-  .result-letter {
-    font-size: 42px;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   /* State Label */
