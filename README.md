@@ -112,6 +112,40 @@ cd frontend
 npm install
 ```
 
+### 4. Environment Configuration
+
+#### Setting Up the Groq API Key
+
+The AI-powered chat assistant requires a Groq API key for LLM functionality.
+
+**Step 1:** Create a `.env` file in the `frontend` directory:
+```bash
+# Inside the frontend directory
+touch .env  # macOS/Linux
+# or
+echo. > .env  # Windows
+```
+
+**Step 2:** Get your free Groq API key:
+
+1. Visit the Groq Console: https://console.groq.com/keys
+2. Sign up or log in to your account
+3. Create a new API key
+4. Copy the generated API key
+
+**Step 3:** Add the API key to your `.env` file:
+```env
+VITE_GROQ_API_KEY=your_api_key_here
+```
+
+**Example:**
+```env
+VITE_GROQ_API_KEY=gsk_abcd1234efgh5678ijkl9012mnop3456
+```
+
+> **Note:** Never commit your `.env` file to version control. The `.env` file is already included in `.gitignore`.
+
+
 **Start the development server:**
 
 ```bash
